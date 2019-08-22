@@ -8,4 +8,12 @@ edition = "2018"
 
 [dependencies]
 clap = "2.33"
+structopt = { version = "0.2", default-features = false }
 regex = "1"
+
+[profile.dev]
+panic = "unwind"
+
+[profile.release]
+panic = "unwind"
+

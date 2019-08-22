@@ -28,34 +28,16 @@ use std::fs::File;
 use std::fs::remove_file;
 use std::fs::rename;
 use std::io::BufReader;
-use std::io::ErrorKind;
 use std::io::prelude::*;
 use std::io::stdin;
 use std::io::stdout;
 use std::path::Path;
 
 use regex::Regex;
-use clap::{Arg, App};
+use structopt::StructOpt;
 
 
-trait FixedPointComparable {
-    fn comparable(&self) -> i64;
-}
-
-impl FixedPointComparable for f64 {
-    fn comparable(&self) -> i64 {
-        return (((self * 10000.0) as i64) + 5) / 10;
-    }
-}
-
-impl FixedPointComparable for str {
-    fn comparable(&self) -> i64 {
-        return (self.parse::<f64>().unwrap()).comparable()
-    }
-}
-
-
-fn build_pause_gcode(resume_height: f64) -> String {
+fn build_pause_gcode(maximum_extruder_temperature: f64, extruder_temperature: f64, resume_height: f64) -> String {
     return format!("\r
 ;===============================================================================\r
 ;-------------------------------------------------------------------------------\r
@@ -158,7 +140,7 @@ G28 Y0  ; home Y axis  to put bed as far back as possible, over the power supply
 ; M190  S110; wait for bed to warm up\r
 G28 X0	; signal that we are just waiting for the head now\r
 ; try to get the head as close as possible to the final first-layer temp as possible, to avoid making a puddle at the home position\r
-M109 S260; ensure melting before Z homing\r
+M109 S{}; ensure melting before Z homing\r
 G28 Z0 ; home Z\r
 ; sitting at home position\r
 ; just in case it melted through and touched, raise head a little before moving, to avoid triggering a bed touch that kills the print\r
@@ -178,6 +160,7 @@ G1 X30 Y5 Z.10 F1000\r
 G92 E0\r
 G1 E-.5 F300\r
 G1 X30 Y0  F2000\r
+M104 S{}; restore the extruder temperature\r
 ; G1 Z.25 F240 ; raise to first layer height to avoid tracking across bed\r
 \r
 G0 Z{:.3} ; <--- Change the value after 'Z' to a bit more than the next layer height. ---<\r
@@ -190,76 +173,93 @@ G92 E0\r
 ;-------------------------------------------------------------------------------\r
 ;===============================================================================\r
 \r
-", resume_height);
+", maximum_extruder_temperature, extruder_temperature, resume_height);
 }
 
 
-fn get_input_path() -> String {
-    print!("Path to input file?   ");
-    stdout().flush().unwrap();
-    let mut raw = String::new();
-    stdin().read_line(&mut raw).expect("Error reading input file path from STDIN");
-    return raw;
+trait FixedPointComparable {
+    fn comparable(&self) -> i64;
 }
 
-
-fn get_pause_height() -> String {
-    print!("Pause at what height? ");
-    stdout().flush().unwrap();
-    let mut raw = String::new();
-    stdin().read_line(&mut raw).expect("Error reading pause height from STDIN");
-    return raw;
-}
-
-
-fn main() {
-
-    let matches = App::new("G-Code Pause")
-        .version("0.1.0")
-        .author("Brian Cook <bcook@rowdydog.com>")
-        .about("Insert a pause for the PolyPrinters.")
-        .arg(Arg::with_name("pause_height")
-             .help("Print height (millimeters) where a pause is inserted.")
-             .short("h")
-             .long("height")
-             .takes_value(true))
-        // fix .arg(Arg::with_name("standard_input")
-        // fix     .help("Process standard input instead of reading from a file.")
-        // fix     .short("s")
-        // fix     .long("stdin"))
-        .arg(Arg::with_name("INPUT")
-            .help("Path to the input file.")
-            .index(1))
-        .get_matches();
-    let use_standard_input = matches.is_present("standard_input");
-    
-    let input_path_or_blank = matches.value_of("INPUT").unwrap_or("");
-    
-    if use_standard_input && (input_path_or_blank != "") {
-        panic!("Specifying an input file and --stdin are mutually exclusive.");
+impl FixedPointComparable for f64 {
+    fn comparable(&self) -> i64 {
+        return (((self * 10000.0) as i64) + 5) / 10;
     }
+}
 
-    let input_path_raw = match ! use_standard_input && (input_path_or_blank == "") {
-        true  => get_input_path(),
-        false => input_path_or_blank.to_string()
-    };
-    let input_path = input_path_raw.trim();
+impl FixedPointComparable for str {
+    fn comparable(&self) -> i64 {
+        return (self.parse::<f64>().unwrap()).comparable()
+    }
+}
 
-    let pause_height_string = match matches.value_of("pause_height") {
+
+fn get_pause_height_from_stdin() -> Result<String, std::io::Error> {
+    print!("Pause at what height? ");
+    stdout().flush()?;
+    let mut raw = String::new();
+    stdin().read_line(&mut raw)?;
+    Ok(raw)
+}
+
+static PAUSE_HEIGHT_NOT_NUMBER: &str = "Pause Height must be a positive number greater than zero.";
+
+fn get_pause_height(arguments: &GcipArguments) -> Result<f64,  Box<dyn std::error::Error>> {
+
+    let pause_height_string = match arguments.pause_height {
         Some(x) => x.to_string(),
-        None    => get_pause_height()
+        None    => get_pause_height_from_stdin()?
     };
-    let re = Regex::new(r"([0-9]+[.]?[0-9]*)").unwrap();
-    let captures = re.captures(&pause_height_string).unwrap();
-    let pause_height = captures[1].parse::<f64>().unwrap();
+    let re_ph = Regex::new(r"([-]?[0-9]+[.]?[0-9]*)")?;
+
+    let captures = re_ph.captures(&pause_height_string);
+
+    if let Some(ref captures) = captures {
+
+        let pause_height = captures[1].parse::<f64>()?;
+        if pause_height <= 0.0 {
+            return Err(Box::new(std::io::Error::new(std::io::ErrorKind::Other, PAUSE_HEIGHT_NOT_NUMBER)));
+        }
+        else {
+            return Ok(pause_height);
+        }
+    }
+    else {
+        return Err(Box::new(std::io::Error::new(std::io::ErrorKind::Other, PAUSE_HEIGHT_NOT_NUMBER)));
+    }
+}
+
+
+#[derive(StructOpt)]
+#[structopt(about="This program inserts a pause in G-code generated by KISSlicer for a \
+PolyPrinter.  Inputs to the program are the path to the G-code file and the part height in \
+millimeters where the pause is to be inserted.  The file is modified in place using a two-phase \
+commit.")]
+struct GcipArguments {
+    //use_standard_input: bool,
+    #[structopt(parse(from_os_str))]
+    path: std::path::PathBuf,
+    #[structopt(short="h", long="height", help="Print height (millimeters) where a pause is inserted.")]
+    pause_height: Option<f64>,
+}
+
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+
+    let arguments = GcipArguments::from_args();
+
+    let path_src = Path::new(&arguments.path);
+
+    let pause_height = get_pause_height(&arguments)?;
     let pause_height_comparable = pause_height.comparable();
 
-    let path_src = Path::new(input_path);
+    // Scan for...
+    // ...END_LAYER_OBJECT comments.
+    let re_elo = Regex::new(r"^;\s+END_LAYER_OBJECT\s+z\s*=([0-9]+[.]?[0-9]*)(.*)$")?;
+    // ...set extruder temperature G code
+    let re_set = Regex::new(r"^ *M10[49] *S([0-9]+)")?;
 
-    // Scan for END_LAYER_OBJECT comments.
-    let re = Regex::new(r"^;\s+END_LAYER_OBJECT\s+z\s*=([0-9]+[.]?[0-9]*)(.*)$").unwrap();
-
-    // Rust prefers LF line endings.
+    // Rust prefers LF line endings.  We're going to use CR LF.
     let crlf = "\r\n".as_bytes();
 
     // Build a Path for the temporary file and the backup file
@@ -270,13 +270,7 @@ fn main() {
     let path_bak = Path::new(&t3);
 
     // Try to open the input file.
-    let inf = File::open(path_src).unwrap_or_else(|error| {
-        if error.kind() == ErrorKind::NotFound {
-            panic!(format!("\"{:?}\" was not found.", path_src))
-        } else {
-            panic!("Problem opening the file: {:?}", error);
-        }
-    });
+    let inf = File::open(path_src)?;
 
     // Added to the END_LAYER_OBJECT line to mark a pause.
     const PAUSE_HERE: &str = "  (pause here)";
@@ -284,35 +278,38 @@ fn main() {
     let mut commit = false;
     {
         // Try to open the output file.
-        let mut ouf = File::create(path_tmp).unwrap();
+        let mut ouf = File::create(path_tmp)?;
 
         // Read the input file line-by-line
         let inf = BufReader::new(&inf);
 
         let mut target_layer_found = false;
         
+        let mut current_extruder_temperature = 0.0;
+        let mut maximum_extruder_temperature = 0.0;
+        
         // For each line in the input file.
         for wrapped_line in inf.lines() {
         
-            let line = wrapped_line.unwrap();
+            let line = wrapped_line?;
             let line_as_bytes = line.as_bytes();
             let mut write_original = true;
 
             if line.contains("END_LAYER_OBJECT") {
-                let captures = re.captures(&line);
+                let captures = re_elo.captures(&line);
                 if let Some(ref captures) = captures {
-                    let z = captures[1].parse::<f64>().unwrap();
+                    let z = captures[1].parse::<f64>()?;
                     let z_comparable = z.comparable();
                     if z_comparable == pause_height_comparable {
                         if &captures[2] != PAUSE_HERE {
                             write_original = false;
-                            ouf.write(line_as_bytes).unwrap();
-                            ouf.write(PAUSE_HERE.as_bytes()).unwrap();
-                            ouf.write(crlf).unwrap();
-                            let t1 = build_pause_gcode(pause_height + 0.500);
+                            ouf.write(line_as_bytes)?;
+                            ouf.write(PAUSE_HERE.as_bytes())?;
+                            ouf.write(crlf)?;
+                            let t1 = build_pause_gcode(maximum_extruder_temperature, current_extruder_temperature, pause_height + 0.500);
                             let t2 = t1.as_bytes();
-                            ouf.write(t2).unwrap();
-                            println!("INFO: Pause inserted after the layer at {:0.3} is finished.", pause_height);
+                            ouf.write(t2)?;
+                            eprintln!("INFO: Pause inserted after the layer at {:0.3} is finished.", pause_height);
                             commit = true;
                         }
                         else {
@@ -328,20 +325,33 @@ fn main() {
                     }
                 }
             }
+            else if line.starts_with("M10") {
+                let captures = re_set.captures(&line);
+                if let Some(ref captures) = captures {
+                    current_extruder_temperature = captures[1].parse::<f64>()?;
+                    if current_extruder_temperature > maximum_extruder_temperature {
+                        maximum_extruder_temperature = current_extruder_temperature;
+                    }
+                    // rmv println!("{}", line);
+                    // rmv println!("current_extruder_temperature = {}", current_extruder_temperature);
+                    // rmv println!("maximum_extruder_temperature = {}", maximum_extruder_temperature);
+                }
+            }
 
             if write_original {
-                ouf.write(line_as_bytes).unwrap();
-                ouf.write(crlf).unwrap();
+                ouf.write(line_as_bytes)?;
+                ouf.write(crlf)?;
             }
         }
     }
     if commit {
         let _ = remove_file(path_bak);
-        rename(path_src, path_bak).unwrap();
-        rename(path_tmp, path_src).unwrap();
+        rename(path_src, path_bak)?;
+        rename(path_tmp, path_src)?;
     }
     else {
         let _ = remove_file(path_tmp);
     }
 
+    Ok(())
 }
