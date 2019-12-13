@@ -22,4 +22,3 @@ jobs:
     - name: Run unit tests
       run: cargo +${{ matrix.rust }} test --verbose
 
-o
