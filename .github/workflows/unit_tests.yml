@@ -10,15 +10,16 @@ on:
 jobs:
   test:
     name: Run unit tests for GCIP.
-      # runs-on: ${{ matrix.os }}
-      strategy:
-        matrix:
-          os: [windows-latest, ubuntu-16.04, ubuntu-18.04]
-          rust: ["stable-x86_64-pc-windows-msvc", "nightly-x86_64-pc-windows-msvc", "stable-x86_64-pc-windows-gnu"]
-      steps:
-      - uses: actions/checkout@master
-      - name: Install Rust
-        run: rustup update ${{ matrix.rust }}
-      - name: Run unit tests
-        run: cargo +${{ matrix.rust }} test --verbose
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-16.04, ubuntu-18.04]
+        rust: ["stable-x86_64-pc-windows-msvc", "nightly-x86_64-pc-windows-msvc", "stable-x86_64-pc-windows-gnu"]
+    steps:
+    - uses: actions/checkout@master
+    - name: Install Rust
+      run: rustup update ${{ matrix.rust }}
+    - name: Run unit tests
+      run: cargo +${{ matrix.rust }} test --verbose
 
+o
