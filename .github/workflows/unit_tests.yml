@@ -5,6 +5,7 @@ on:
     - "Cargo.lock"
     - "Cargo.toml"
     - "src/**.rs"
+    - ".github/workflows/*"
 jobs:
   test:
     name: Run unit tests for GCIP.
