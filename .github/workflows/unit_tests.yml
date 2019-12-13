@@ -1,4 +1,4 @@
-name: unit_tests_for_GCIP
+name: Unit tests for GCIP
 on:
   push:
     paths:
@@ -8,7 +8,7 @@ on:
     - ".github/workflows/*"
 jobs:
   test:
-    name: Run unit tests for GCIP.
+    name: Run unit tests for GCIP
     runs-on: windows-latest
     strategy:
       matrix:
