@@ -1,12 +1,10 @@
 name: unit_tests_for_GCIP
-
 on:
   push:
     paths:
     - "Cargo.lock"
     - "Cargo.toml"
     - "src/**.rs"
-
 jobs:
   test:
     name: Run unit tests for GCIP.
@@ -21,4 +19,3 @@ jobs:
       run: rustup update ${{ matrix.rust }}
     - name: Run unit tests
       run: cargo +${{ matrix.rust }} test --verbose
-
