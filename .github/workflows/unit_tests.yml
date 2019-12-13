@@ -10,7 +10,7 @@ on:
 jobs:
   test:
     name: Run unit tests for GCIP.
-      runs-on: ${{ matrix.os }}
+      runs-on: windows-latest  # ${{ matrix.os }}
       strategy:
         matrix:
           os: [windows-latest, ubuntu-16.04, ubuntu-18.04]
