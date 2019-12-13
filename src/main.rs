@@ -355,3 +355,34 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn bad_arguments_001() {
+        // let raw = vec!["program_name_goes_here.exe", "junk.gcode"];
+        let raw: std::vec::Vec::<&str> = vec![""];
+        let arguments = GcipArguments::from_iter_safe(raw.iter());
+        assert!(arguments.is_err());
+    }
+
+    #[test]
+    fn bad_arguments_002() {
+        let raw = vec!["program_name_goes_here.exe"];
+        let arguments = GcipArguments::from_iter_safe(raw.iter());
+        assert!(arguments.is_err());
+    }
+
+    #[test]
+    fn good_arguments_003() {
+        let raw = vec!["program_name_goes_here.exe", "test.gc"];
+        let arguments = GcipArguments::from_iter_safe(raw.iter());
+        assert!(arguments.is_ok());
+        if let Ok(arguments) = arguments {
+            let right = std::path::PathBuf::from("test.gc");
+            assert!(arguments.path == right);
+        }
+    }
+}
