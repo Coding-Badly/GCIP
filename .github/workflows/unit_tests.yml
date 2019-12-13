@@ -9,16 +9,13 @@ on:
 jobs:
   test:
     name: Run unit tests for GCIP.
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
     strategy:
       matrix:
-        os: [windows-latest]
-        rust: ["stable-x86_64-pc-windows-msvc", "nightly-x86_64-pc-windows-msvc"]
+        rust: ["stable-x86_64-pc-windows-msvc"]
     steps:
     - uses: actions/checkout@master
     - name: Install Rust
-      run: |
-        rustup component add cargo --toolchain ${{ matrix.rust }}
-        rustup update ${{ matrix.rust }}
+      run: rustup update ${{ matrix.rust }}
     - name: Run unit tests
       run: cargo +${{ matrix.rust }} test --verbose
