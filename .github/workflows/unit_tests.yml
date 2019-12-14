@@ -9,9 +9,10 @@ on:
 jobs:
   test:
     name: Run unit tests for GCIP
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: ["windows-latest"]
         rust: ["stable", "nightly"]
     steps:
     - uses: actions/checkout@master
