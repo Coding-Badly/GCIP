@@ -18,7 +18,8 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Install AWS command line interface
-      run: choco install --yes awscli
+#      run: choco install --yes awscli
+      run: choco list
     - name: Install Rust
       run: rustup update ${{ matrix.rust }}
     - name: Run unit tests
