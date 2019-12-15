@@ -21,6 +21,9 @@ jobs:
 #      run: choco install --yes awscli
 #      run: choco list
       run: choco install awscli
+      # Takes almost two minutes!
+      # Is unreliable (one succes in three attempts)!
+      # The MSI was fetched from https://s3.amazonaws.com/aws-cli/AWSCLI64PY3-1.16.303.msi
     - name: Install Rust
       run: rustup update ${{ matrix.rust }}
     - name: Run unit tests
