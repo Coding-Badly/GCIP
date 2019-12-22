@@ -3,8 +3,7 @@ name = "gcip"
 version = "0.1.0"
 authors = ["Brian Cook <bcook@rowdydog.com>"]
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+build = "build.rs"
 
 [dependencies]
 clap = "2.33"
@@ -17,3 +16,5 @@ panic = "unwind"
 [profile.release]
 panic = "unwind"
 
+[build-dependencies]
+embed-resource = "1.3"
