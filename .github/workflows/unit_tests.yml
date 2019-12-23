@@ -7,6 +7,7 @@ on:
     - "Cargo.toml"
     - "build.rs"
     - "src/**.rs"
+    - "tmp/version.lib"
 jobs:
   test:
     name: Run unit tests for GCIP
