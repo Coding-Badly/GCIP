@@ -21,7 +21,7 @@ BEGIN
             VALUE "LegalCopyright",   "(C) Rowdy Dog Software.  All rights reserved.\0"
             VALUE "OriginalFilename", "gcip\0"
             VALUE "ProductName",      "G-code Insert Pause\0"
-            VALUE "ProductVersion",	  "0.1"
+            VALUE "ProductVersion",	  "0.1\0"
         END
 	END
 	BLOCK "VarFileInfo"
