@@ -19,6 +19,8 @@ jobs:
         rust: ["stable", "nightly"]
     steps:
     - uses: actions/checkout@master
+    - name: windres test
+      run: windres
 #    - name: Install AWS command line interface
 #      run: choco install --yes awscli
 #      run: choco list
