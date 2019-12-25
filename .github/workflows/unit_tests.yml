@@ -20,7 +20,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: windres test
-      run: windres
+      run: windres --input=src/version.rc --input-format=rc --output=tmp/junk.lib --output-format=coff
 #    - name: Install AWS command line interface
 #      run: choco install --yes awscli
 #      run: choco list
