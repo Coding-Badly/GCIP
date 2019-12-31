@@ -6,9 +6,8 @@ edition = "2018"
 
 [dependencies]
 clap = "2.33"
-structopt = { version = "0.2", default-features = false }
-regex = "1"
-toml = "0"  # fix: Move to build-dependencies.
+structopt = { version = "0.3", default-features = false }
+regex = "0.2"
 
 [profile.dev]
 panic = "unwind"
