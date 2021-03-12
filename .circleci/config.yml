@@ -34,12 +34,12 @@ version: 2.1
 #          command: |
 #            cargo build --release
 
-jobs:
-  build:
-    machine:
-      image: ubuntu-2004:202101-01
-    steps:
-      - checkout
+#jobs:
+#  build:
+#    machine:
+#      image: ubuntu-2004:202101-01
+#    steps:
+#      - checkout
 #      - run:
 #          name: compile release
 #          command: |
@@ -48,6 +48,13 @@ jobs:
 #          name: "7-Zip test"
 #          command: |
 #            7z
+
+orbs:
+  win: circleci/windows@2.4.0
+jobs:
+  build:
+    executor: win/default
+    steps:
       - run:
           name: "Install Rust the chocolatey way"
           command: |
