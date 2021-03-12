@@ -61,6 +61,10 @@ jobs:
           command: |
             choco install rust-ms
       - run:
+          name: "allow https when fetching from GitHub"
+          command: |
+            git config --global --unset "url.ssh://git@github.com.insteadof"
+      - run:
           name: compile release
           command: |
             cargo build --release
