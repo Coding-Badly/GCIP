@@ -20,16 +20,26 @@ version: 2.1
 #    jobs:
 #      - welcome/run
 
-orbs:
-  win: circleci/windows@2.4.0 # The Windows orb give you everything you need to start using the Windows executor.
+#orbs:
+#  win: circleci/windows@2.4.0 # The Windows orb give you everything you need to start using the Windows executor.
+#jobs:
+#  build: # name of your job
+#    executor: win/default # executor type
+#    steps:
+#      # Commands are run in a Windows virtual machine environment
+#      - checkout
+#      - run: Write-Host 'Hello, Windows'
+#      - run:
+#          name: compile release
+#          command: |
+#            cargo build --release
 
 jobs:
-  build: # name of your job
-    executor: win/default # executor type
+  build:
+    machine:
+      image: ubuntu-2004:202101-01
     steps:
-      # Commands are run in a Windows virtual machine environment
       - checkout
-      - run: Write-Host 'Hello, Windows'
       - run:
           name: compile release
           command: |
