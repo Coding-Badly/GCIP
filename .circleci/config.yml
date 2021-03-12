@@ -41,6 +41,9 @@ jobs:
     steps:
       - checkout
       - run:
-          name: compile release
+#          name: compile release
+#          command: |
+#            cargo build --release
+          name: "7-Zip test"
           command: |
-            cargo build --release
+            7z
