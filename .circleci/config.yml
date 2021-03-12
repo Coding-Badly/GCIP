@@ -55,6 +55,7 @@ jobs:
   build:
     executor: win/default
     steps:
+      - checkout
       - run:
           name: "Install Rust the chocolatey way"
           command: |
