@@ -40,10 +40,19 @@ jobs:
       image: ubuntu-2004:202101-01
     steps:
       - checkout
-      - run:
+#      - run:
 #          name: compile release
 #          command: |
 #            cargo build --release
-          name: "7-Zip test"
+#      - run:
+#          name: "7-Zip test"
+#          command: |
+#            7z
+      - run:
+          name: "Install Rust the chocolatey way"
           command: |
-            7z
+            choco install rust-ms
+      - run:
+          name: compile release
+          command: |
+            cargo build --release
