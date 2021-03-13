@@ -1,0 +1,18 @@
+name: "Build some stuff"
+
+jobs:
+  build_windows:
+    name: "Build the Windows version"
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: "Remove Rust documentation"
+      run: rustup component remove rust-docs
+      continue-on-error: true
+    - name: "Update Rust to the latest stable version"
+      run: rustup update stable
+    - name: Fetch Dependencies
+      run: cargo fetch
+      shell: bash
+    - name: Build release version
+      run: cargo build --release
