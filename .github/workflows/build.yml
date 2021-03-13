@@ -1,5 +1,10 @@
 name: "Build some stuff"
 
+on:
+  push:
+    branchs:
+      - master
+
 jobs:
   build_windows:
     name: "Build the Windows version"
