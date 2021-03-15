@@ -13,3 +13,14 @@ jobs:
           command: |
             dir
             git config --list
+      - run:
+          name: "allow https when fetching from GitHub"
+          command: |
+            git config --global --unset "url.ssh://git@github.com.insteadof" || true
+            git config --system --unset "url.ssh://git@github.com.insteadof" || true
+            git config --local --unset "url.ssh://git@github.com.insteadof" || true
+      - run:
+          name: "multiline test 2"
+          command: |
+            dir
+            git config --list
