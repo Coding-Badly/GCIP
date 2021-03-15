@@ -11,9 +11,13 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "dump Git configuration"
+          name: "multiline test 1"
           command: |
             set -x
             SHA=$(git rev-parse --short --verify HEAD)
             echo "Release for commit ${SHA} on branch ${CIRCLE_BRANCH}."
+      - run:
+          name: "multiline test 2"
+          command: |
+            ls
 
