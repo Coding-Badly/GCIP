@@ -49,6 +49,12 @@ version: 2.1
 #          command: |
 #            7z
 
+#      - run:
+#          name: dump environment
+#          command: |
+#            set
+#          shell: cmd.exe
+
 orbs:
   win: circleci/windows@2.4.0
 jobs:
@@ -68,8 +74,22 @@ jobs:
 #          name: compile release
 #          command: |
 #            cargo build --release
+
+      - checkout
       - run:
-          name: compile release
+          name: "download rustup-init"
           command: |
-            set
-          shell: cmd.exe
+            $client = new-object System.Net.WebClient
+            $client.DownloadFile('https://win.rustup.rs', "rustup-init.exe")
+      - run:
+          name: "install Rust"
+          command: |
+            rustup-init --verbose --default-host x86_64-pc-windows-msvc --default-toolchain stable --profile minimal
+      - run:
+          name: "allow https when fetching from GitHub"
+          command: |
+            git config --global --unset "url.ssh://git@github.com.insteadof"
+      - run:
+          name: "compile release version"
+          command: |
+            cargo build --release
