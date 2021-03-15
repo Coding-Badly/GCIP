@@ -4,7 +4,7 @@ orbs:
   win: circleci/windows@2.4.0
 
 jobs:
-  build:
+  j1:
     executor: win/default
     steps:
       - checkout
