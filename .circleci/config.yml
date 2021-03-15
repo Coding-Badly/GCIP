@@ -13,5 +13,4 @@ jobs:
           name: "dump Git configuration"
           command: |
             git config --list
-            echo "=========="
             ls
