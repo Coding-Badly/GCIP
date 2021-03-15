@@ -1,13 +1,13 @@
 version: 2.1
 
-#orbs:
-#  win: circleci/windows@2.4.0
+orbs:
+  win: circleci/windows@2.4.0
 
 jobs:
-  build:
-    machine:
-      image: ubuntu-1604:202007-01
-#    executor: win/default
+  windows:
+#    machine:
+#      image: ubuntu-1604:202007-01
+    executor: win/default
     steps:
       - checkout
       - run:
@@ -19,6 +19,7 @@ jobs:
       - run:
           name: "multiline test 2"
           command: |
-            ls -la
+#            ls -la
+            dir
             git config --list
 
