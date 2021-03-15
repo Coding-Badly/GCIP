@@ -59,6 +59,16 @@ version: 2.1
 #            $client = new-object System.Net.WebClient
 #            $client.DownloadFile('https://win.rustup.rs', "rustup-init.exe")
 
+# Silent failure.
+#      - run:
+#          name: "compile release version"
+#          command: |
+#            set PATH=%PATH%;%USERPROFILE%\.cargo\bin
+#            cargo --version
+#            cargo build --release
+#            dir
+#          shell: cmd.exe
+
 orbs:
   win: circleci/windows@2.4.0
 jobs:
@@ -98,8 +108,7 @@ jobs:
       - run:
           name: "compile release version"
           command: |
-            set PATH=%PATH%;%USERPROFILE%\.cargo\bin
-            cargo --version
-            cargo build --release
             dir
+            %USERPROFILE%\.cargo\bin\cargo --version
+            %USERPROFILE%\.cargo\bin\cargo build --release
           shell: cmd.exe
