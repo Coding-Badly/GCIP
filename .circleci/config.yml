@@ -99,5 +99,7 @@ jobs:
           name: "compile release version"
           command: |
             set PATH=%PATH%;%USERPROFILE%\.cargo\bin
+            cargo --version
             cargo build --release
+            dir
           shell: cmd.exe
