@@ -19,6 +19,7 @@ jobs:
             git config --global --unset "url.ssh://git@github.com.insteadof" || true
             git config --system --unset "url.ssh://git@github.com.insteadof" || true
             git config --local --unset "url.ssh://git@github.com.insteadof" || true
+          shell: cmd.exe
       - run:
           name: "multiline test 2"
           command: |
