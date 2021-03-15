@@ -93,7 +93,7 @@ jobs:
       - run:
           name: "allow https when fetching from GitHub"
           command: |
-            git config --global --unset "url.ssh://git@github.com.insteadof"
+            git config --global --unset "url.ssh://git@github.com.insteadof" || true
           shell: cmd.exe
       - run:
           name: "compile release version"
