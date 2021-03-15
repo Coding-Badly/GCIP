@@ -55,16 +55,21 @@ jobs:
   build:
     executor: win/default
     steps:
-      - checkout
-      - run:
-          name: "Install Rust the chocolatey way"
-          command: |
-            choco install rust-ms
-      - run:
-          name: "allow https when fetching from GitHub"
-          command: |
-            git config --global --unset "url.ssh://git@github.com.insteadof"
+#      - checkout
+#      - run:
+#          name: "Install Rust the chocolatey way"
+#          command: |
+#            choco install rust-ms
+#      - run:
+#          name: "allow https when fetching from GitHub"
+#          command: |
+#            git config --global --unset "url.ssh://git@github.com.insteadof"
+#      - run:
+#          name: compile release
+#          command: |
+#            cargo build --release
       - run:
           name: compile release
           command: |
-            cargo build --release
+            set
+          shell: cmd.exe
