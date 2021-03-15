@@ -5,8 +5,6 @@ orbs:
 
 jobs:
   windows:
-#    machine:
-#      image: ubuntu-1604:202007-01
     executor: win/default
     steps:
       - checkout
@@ -19,7 +17,6 @@ jobs:
       - run:
           name: "multiline test 2"
           command: |
-#            ls -la
             dir
             git config --list
 
