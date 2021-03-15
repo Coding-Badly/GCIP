@@ -12,4 +12,7 @@ jobs:
       - run:
           name: "dump Git configuration"
           command: |
-            ls
+            set -x
+            SHA=$(git rev-parse --short --verify HEAD)
+            echo "Release for commit ${SHA} on branch ${CIRCLE_BRANCH}."
+
