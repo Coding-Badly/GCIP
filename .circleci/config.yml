@@ -106,9 +106,12 @@ jobs:
             git config --global --unset "url.ssh://git@github.com.insteadof" || true
           shell: cmd.exe
       - run:
-          name: "compile release version"
+          name: "output the cargo version"
           command: |
             %USERPROFILE%\.cargo\bin\cargo --version
           shell: cmd.exe
-
-#            %USERPROFILE%\.cargo\bin\cargo build --release
+      - run:
+          name: "compile release version"
+          command: |
+            %USERPROFILE%\.cargo\bin\cargo build --release
+          shell: cmd.exe
