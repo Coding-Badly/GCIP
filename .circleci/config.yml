@@ -22,38 +22,27 @@ jobs:
           command: |
             git config --list
 
-      - run:
-          name: "Install Rust the chocolatey way"
-          command: |
-            choco install rust-ms
-      - run:
-          name: compile release
-          command: |
-            cargo build --release
+#      - run:
+#          name: "Install Rust the chocolatey way"
+#          command: |
+#            choco install rust-ms
+#      - run:
+#          name: compile release
+#          command: |
+#            cargo build --release
 
-#      - run:
-#          name: "download rustup-init"
-#          command: |
-#            curl --proto https --tlsv1.2 -sSf https://win.rustup.rs/x86_64 --output rustup-init.exe
-#          shell: bash.exe
-#      - run:
-#          name: "install Rust"
-#          command: |
-#            rustup-init -y -v --default-host x86_64-pc-windows-msvc --default-toolchain stable --profile minimal
-#          shell: cmd.exe
-#      - run:
-#          name: "output the cargo version"
-#          command: |
-#            %USERPROFILE%\.cargo\bin\cargo --version
-#          shell: cmd.exe
-#      - run:
-#          name: "compile release version"
-#          command: |
-#            %USERPROFILE%\.cargo\bin\cargo build --release
-#          shell: cmd.exe
-#      - checkout
-#      - run:
-#          name: "allow https when fetching from GitHub"
-#          command: |
-#            git config --global --unset "url.ssh://git@github.com.insteadof" || true
-#          shell: cmd.exe
+      - run:
+          name: "download rustup-init"
+          command: |
+            curl --proto https --tlsv1.2 -sSf https://win.rustup.rs/x86_64 --output rustup-init.exe
+          shell: bash.exe
+      - run:
+          name: "install Rust"
+          command: |
+            rustup-init -y -v --default-host x86_64-pc-windows-msvc --default-toolchain stable --profile minimal
+          shell: cmd.exe
+      - run:
+          name: "compile release version"
+          command: |
+            %USERPROFILE%\.cargo\bin\cargo build --release
+          shell: cmd.exe
