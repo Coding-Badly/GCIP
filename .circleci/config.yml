@@ -88,7 +88,7 @@ jobs:
       - run:
           name: "install Rust"
           command: |
-            rustup-init --verbose --default-host x86_64-pc-windows-msvc --default-toolchain stable --profile minimal
+            rustup-init --quiet --default-host x86_64-pc-windows-msvc --default-toolchain stable --profile minimal
           shell: cmd.exe
       - run:
           name: "allow https when fetching from GitHub"
