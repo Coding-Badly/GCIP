@@ -3,6 +3,12 @@ version: 2.1
 orbs:
   win: circleci/windows@2.4.0
 
+workflows:
+  version: 2
+  all_jobs:
+    jobs:
+      - j1
+
 jobs:
   j1:
     executor: win/default
