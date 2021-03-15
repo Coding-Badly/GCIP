@@ -108,7 +108,7 @@ jobs:
       - run:
           name: "compile release version"
           command: |
-            dir
             %USERPROFILE%\.cargo\bin\cargo --version
-            %USERPROFILE%\.cargo\bin\cargo build --release
           shell: cmd.exe
+
+#            %USERPROFILE%\.cargo\bin\cargo build --release
