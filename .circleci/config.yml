@@ -13,4 +13,3 @@ jobs:
           command: |
             dir
             git config --list
-
