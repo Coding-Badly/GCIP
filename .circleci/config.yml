@@ -4,18 +4,12 @@ orbs:
   win: circleci/windows@2.4.0
 
 jobs:
-  windows:
+  build:
     executor: win/default
     steps:
       - checkout
       - run:
           name: "multiline test 1"
-          command: |
-            set -x
-            SHA=$(git rev-parse --short --verify HEAD)
-            echo "Release for commit ${SHA} on branch ${CIRCLE_BRANCH}."
-      - run:
-          name: "multiline test 2"
           command: |
             dir
             git config --list
