@@ -98,5 +98,6 @@ jobs:
       - run:
           name: "compile release version"
           command: |
+            set PATH=%PATH%;%USERPROFILE%\.cargo\bin
             cargo build --release
           shell: cmd.exe
