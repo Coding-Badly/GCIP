@@ -80,11 +80,11 @@ jobs:
           name: "download rustup-init"
           command: |
             $client = new-object System.Net.WebClient
-            $client.DownloadFile('https://win.rustup.rs', "rustup-init.exe")
+            $client.DownloadFile('https://win.rustup.rs', "$pwd\rustup-init.exe")
       - run:
           name: "install Rust"
           command: |
-            rustup-init --verbose --default-host x86_64-pc-windows-msvc --default-toolchain stable --profile minimal
+            $pwd\rustup-init --verbose --default-host x86_64-pc-windows-msvc --default-toolchain stable --profile minimal
       - run:
           name: "allow https when fetching from GitHub"
           command: |
