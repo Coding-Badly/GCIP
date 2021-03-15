@@ -19,5 +19,6 @@ jobs:
       - run:
           name: "multiline test 2"
           command: |
-            ls
+            ls -la
+            git config --list
 
