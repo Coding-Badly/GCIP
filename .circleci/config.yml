@@ -32,8 +32,8 @@ jobs:
           command: |
             cargo build --release
       - store_artifacts:
-          path: ./target/release/gcip.exe
-          destination: gcip-linux-1.exe
+          path: ./target/release/gcip
+          destination: gcip-linux-1
 
 #  job-windows-1:
 #    executor: win/default
