@@ -12,11 +12,11 @@ workflows:
       - job-windows-2
 
 jobs:
-  job-linux-1:
-    machine:
-      docker_layer_caching: false
-      image: ubuntu-2004:202008-01
-    steps:
+#  job-linux-1:
+#    machine:
+#      docker_layer_caching: false
+#      image: ubuntu-2004:202008-01
+#    steps:
 #      - checkout
 #      - run:
 #          name: "download rustup-init"
