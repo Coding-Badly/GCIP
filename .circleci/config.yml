@@ -60,4 +60,3 @@ jobs:
           name: "compile release version"
           command: |
             cargo build --release
-          shell: cmd.exe
