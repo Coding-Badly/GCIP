@@ -59,10 +59,12 @@ jobs:
       - run:
           name: "download rustup-init"
           command: |
-            curl --proto https --tlsv1.2 -sSf https://sh.rustup.rs --output rustup.rs
+            curl --proto https --tlsv1.2 -sSf https://sh.rustup.rs --output rustup.rs --verbose
+            ls -la
       - run:
           name: "install Rust"
           command: |
+            ls -la
             sh rustup -y -v --default-host x86_64-unknown-linux-gnu --default-toolchain stable --profile minimal
       - run:
           name: "compile release version"
