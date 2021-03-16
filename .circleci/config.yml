@@ -57,6 +57,15 @@ jobs:
 #          shell: cmd.exe
 
       - run:
+          name: "download rustup-init"
+          command: |
+            curl --proto https --tlsv1.2 -sSf https://sh.rustup.rs --output rustup.rs
+      - run:
+          name: "install Rust"
+          command: |
+            ./rustup -y -v --default-host x86_64-unknown-linux-gnu --default-toolchain stable --profile minimal
+      - run:
           name: "compile release version"
           command: |
             cargo build --release
+
