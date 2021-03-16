@@ -24,8 +24,8 @@ jobs:
       run: cargo build --release
     - uses: actions/upload-artifact@v2
       with:
-        name: gcip-windows-1
-        path: ./target/release/gcip
+        name: gcip-windows-1.exe
+        path: ./target/release/gcip.exe
 
   job-linux-1:
     name: "Build the Linux version"
