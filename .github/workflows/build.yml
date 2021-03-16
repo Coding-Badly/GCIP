@@ -38,3 +38,7 @@ jobs:
       shell: bash
     - name: Build release version
       run: cargo build --release
+    - uses: actions/upload-artifact@v2
+      with:
+        name: gcip-linux-1
+        path: ./target/release/gcip
