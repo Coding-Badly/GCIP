@@ -7,33 +7,33 @@ workflows:
   version: 2
   all_jobs:
     jobs:
-#      - job-linux-1
+      - job-linux-1
       - job-windows-1
-#      - job-windows-2
+      - job-windows-2
 
 jobs:
-#  job-linux-1:
-#    machine:
-#      docker_layer_caching: false
-#      image: ubuntu-2004:202008-01
-#    steps:
-#      - checkout
-#      - run:
-#          name: "download rustup-init"
-#          command: |
-#            curl --proto https --tlsv1.2 -sSf https://sh.rustup.rs --output rustup
-#            chmod 770 ./rustup
-#      - run:
-#          name: "install Rust"
-#          command: |
-#            ./rustup -y -v --default-host x86_64-unknown-linux-gnu --default-toolchain stable --profile minimal
-#      - run:
-#          name: "compile release version"
-#          command: |
-#            cargo build --release
-#      - store_artifacts:
-#          path: ./target/release/gcip
-#          destination: gcip-linux-1
+  job-linux-1:
+    machine:
+      docker_layer_caching: false
+      image: ubuntu-2004:202008-01
+    steps:
+      - checkout
+      - run:
+          name: "download rustup-init"
+          command: |
+            curl --proto https --tlsv1.2 -sSf https://sh.rustup.rs --output rustup
+            chmod 770 ./rustup
+      - run:
+          name: "install Rust"
+          command: |
+            ./rustup -y -v --default-host x86_64-unknown-linux-gnu --default-toolchain stable --profile minimal
+      - run:
+          name: "compile release version"
+          command: |
+            cargo build --release
+      - store_artifacts:
+          path: ./target/release/gcip
+          destination: gcip-linux-1
 
   job-windows-1:
     executor: win/default
@@ -55,29 +55,29 @@ jobs:
           path: ./target/release/gcip.exe
           destination: gcip-windows-1.exe
 
-#  job-windows-2:
-#    executor: win/default
-#    steps:
-#      - checkout
-#      - run:
-#          name: "allow https when fetching from GitHub"
-#          command: |
-#            git config --global --unset url.ssh://git@github.com.insteadof
-#      - run:
-#          name: "download rustup-init"
-#          command: |
-#            curl --proto https --tlsv1.2 -sSf https://win.rustup.rs/x86_64 --output rustup-init.exe
-#          shell: bash.exe
-#      - run:
-#          name: "install Rust"
-#          command: |
-#            rustup-init -y -v --default-host x86_64-pc-windows-msvc --default-toolchain stable --profile minimal
-#          shell: cmd.exe
-#      - run:
-#          name: "compile release version"
-#          command: |
-#            %USERPROFILE%\.cargo\bin\cargo build --release
-#          shell: cmd.exe
-#      - store_artifacts:
-#          path: ./target/release/gcip.exe
-#          destination: gcip-windows-2.exe
+  job-windows-2:
+    executor: win/default
+    steps:
+      - checkout
+      - run:
+          name: "allow https when fetching from GitHub"
+          command: |
+            git config --global --unset url.ssh://git@github.com.insteadof
+      - run:
+          name: "download rustup-init"
+          command: |
+            curl --proto https --tlsv1.2 -sSf https://win.rustup.rs/x86_64 --output rustup-init.exe
+          shell: bash.exe
+      - run:
+          name: "install Rust"
+          command: |
+            rustup-init -y -v --default-host x86_64-pc-windows-msvc --default-toolchain stable --profile minimal
+          shell: cmd.exe
+      - run:
+          name: "compile release version"
+          command: |
+            %USERPROFILE%\.cargo\bin\cargo build --release
+          shell: cmd.exe
+      - store_artifacts:
+          path: ./target/release/gcip.exe
+          destination: gcip-windows-2.exe
