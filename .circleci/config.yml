@@ -59,8 +59,8 @@ jobs:
       - run:
           name: "download rustup-init"
           command: |
-            curl --proto https --tlsv1.2 -sSf https://sh.rustup.rs --output rustup.rs --verbose
-            chmod 770 ./rustup.rs
+            curl --proto https --tlsv1.2 -sSf https://sh.rustup.rs --output rustup --verbose
+            chmod 770 ./rustup
             ls -la
       - run:
           name: "install Rust"
