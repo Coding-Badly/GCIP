@@ -11,7 +11,10 @@ workflows:
 
 jobs:
   j1:
-    executor: win/default
+#    executor: win/default
+    machine:
+      docker_layer_caching: false
+      image: ubuntu-2004:202008-01
     steps:
       - checkout
 
@@ -37,18 +40,24 @@ jobs:
 #          command: |
 #            cargo build --release
 
-      - run:
-          name: "download rustup-init"
-          command: |
-            curl --proto https --tlsv1.2 -sSf https://win.rustup.rs/x86_64 --output rustup-init.exe
-          shell: bash.exe
-      - run:
-          name: "install Rust"
-          command: |
-            rustup-init -y -v --default-host x86_64-pc-windows-msvc --default-toolchain stable --profile minimal
-          shell: cmd.exe
+#      - run:
+#          name: "download rustup-init"
+#          command: |
+#            curl --proto https --tlsv1.2 -sSf https://win.rustup.rs/x86_64 --output rustup-init.exe
+#          shell: bash.exe
+#      - run:
+#          name: "install Rust"
+#          command: |
+#            rustup-init -y -v --default-host x86_64-pc-windows-msvc --default-toolchain stable --profile minimal
+#          shell: cmd.exe
+#      - run:
+#          name: "compile release version"
+#          command: |
+#            %USERPROFILE%\.cargo\bin\cargo build --release
+#          shell: cmd.exe
+
       - run:
           name: "compile release version"
           command: |
-            %USERPROFILE%\.cargo\bin\cargo build --release
+            cargo build --release
           shell: cmd.exe
