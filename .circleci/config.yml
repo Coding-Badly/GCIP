@@ -8,8 +8,8 @@ workflows:
   all_jobs:
     jobs:
 #      - job-linux-1
-#      - job-windows-1
-      - job-windows-2
+      - job-windows-1
+#      - job-windows-2
 
 jobs:
 #  job-linux-1:
