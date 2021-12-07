@@ -19,7 +19,8 @@ jobs:
           command: |
             echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
       - run: printenv
-      - run: cargo build --manifest-path original/Cargo.toml
+      - run: ls -la
+      - run: cargo build --locked --release --manifest-path ./Cargo.toml
 
 
 #      - run:
