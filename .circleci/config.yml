@@ -8,9 +8,12 @@ jobs:
     executor:
       name: win/default
       size: medium
+      shell: bash
     steps:
       - checkout
-      - run: 'Write-Host ''Hello, Windows'''
+      - run: echo "Whatever, dude."
+
+#      - run: 'Write-Host ''Hello, Windows'''
 
 workflows:
   my-workflow:
