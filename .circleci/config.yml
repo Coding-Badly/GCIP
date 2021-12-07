@@ -11,9 +11,13 @@ jobs:
       shell: bash
     steps:
       - run:
-          command: dir "C:/" /s
+          command: dir
           shell: cmd
-    
+
+#      - run:
+#          command: dir "C:/" /s
+#          shell: cmd
+   
 #      - run:
 #          command: 'Get-ChildItem env:'
 #          shell: PowerShell
