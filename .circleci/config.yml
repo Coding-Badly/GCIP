@@ -19,9 +19,11 @@ jobs:
       - run: printenv
       - run: printenv
       - run: printenv
+      - run: ls -laR "/c/Program Files (x86)/"
 
 # WIX=C:\Program Files (x86)\WiX Toolset v3.14\
 
+# C:\Program Files (x86)\WiX Toolset v3.14\
 
 # WiX Toolset requires the .NET Framework 3.5.1 Windows feature to be enabled
 
