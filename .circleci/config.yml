@@ -11,7 +11,7 @@ jobs:
       shell: bash
     steps:
       - checkout
-      - run: echo "Whatever, dude."
+      - run: rustc --version
 
 #      - run: 'Write-Host ''Hello, Windows'''
 
