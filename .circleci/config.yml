@@ -13,7 +13,7 @@ jobs:
       - checkout
       - run: curl -o "rustup-init.exe" "https://win.rustup.rs/"
       - run: ls -la
-      - run: rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --no-modify-path --profile minimal
+      - run: ./rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --no-modify-path --profile minimal
       - run: ls -la
 
 #      - run: 'Write-Host ''Hello, Windows'''
