@@ -10,12 +10,10 @@ jobs:
       name: win/default
       size: medium
       shell: bash
-    docker:
-      - image: cimg/rust:1.57.0
     steps:
 #      - github-cli/setup
-      - checkout
-      - run: cargo --version
+#      - checkout
+      - run: rc.exe
 
 #      - run: ls -laR /c
 #      - run: windres
@@ -36,6 +34,9 @@ jobs:
 #      - run: ls -laR ..
 #      - run: go get github.com/tcnksm/ghr
 #      - run: ls -laR ..
+
+#    docker:
+#      - image: cimg/rust:1.57.0
 
 #VERSION=$(my-binary --version)
 #ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/
