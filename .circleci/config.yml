@@ -17,11 +17,12 @@ jobs:
       - run: curl -o "wix314.exe" "https://wixtoolset.org/downloads/v3.14.0.5722/wix314.exe"
       - run: ./wix314.exe /quiet
       - run: printenv
-      - run: printenv
-      - run: printenv
-      - run: printenv
-      - run: printenv
-      - run: ls -laR "/c/Program Files (x86)/WiX Toolset v3.14/"
+#      - run: printenv
+#      - run: printenv
+#      - run: printenv
+#      - run: printenv
+      - run: ls -laR "/c/Program Files (x86)/WiX Toolset v3.14/" || true
+      - run: ps -A
 
 # WIX=C:\Program Files (x86)\WiX Toolset v3.14\
 
