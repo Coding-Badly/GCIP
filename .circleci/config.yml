@@ -14,6 +14,7 @@ jobs:
           command: 'Get-ChildItem env:'
           shell: PowerShell
       - run: dir "C:\\" /s
+          shell: cmd
 
 #      - checkout
 #      - run: curl -o "rustup-init.exe" "https://win.rustup.rs/"
