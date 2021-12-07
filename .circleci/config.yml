@@ -13,8 +13,10 @@ jobs:
       - run: ls -laR ..
       - checkout
       - run: curl -o "rustup-init.exe" "https://win.rustup.rs/"
-      - run: ./rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --no-modify-path --profile minimal
+      - run: ./rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
       - run: ls -laR ..
+      - run: rustc -Vv
+      - run: cargo --version
 
 #      - run:
 #          command: dir "C:/" /s
