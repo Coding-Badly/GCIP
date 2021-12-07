@@ -11,15 +11,19 @@ jobs:
       shell: bash
     steps:
       - checkout
-      - run: curl -o "rustup-init-1.exe" "https://win.rustup.rs/"
-      - run:
-          command: |
-            $ProgressPreference = "SilentlyContinue"
-            Invoke-WebRequest -Uri "https://win.rustup.rs/" -OutFile "rustup-init-2.exe"
-          shell: PowerShell
+      - run: curl -o "rustup-init.exe" "https://win.rustup.rs/"
+      - run: ls -la
+      - run: rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --no-modify-path --profile minimal
       - run: ls -la
 
 #      - run: 'Write-Host ''Hello, Windows'''
+
+# curl is faster
+#      - run:
+#          command: |
+#            $ProgressPreference = "SilentlyContinue"
+#            Invoke-WebRequest -Uri "https://win.rustup.rs/" -OutFile "rustup-init-2.exe"
+#          shell: PowerShell
 
 workflows:
   my-workflow:
