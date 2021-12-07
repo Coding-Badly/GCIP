@@ -11,8 +11,8 @@ jobs:
       shell: bash
     steps:
       - run:
-          command: dir
-          shell: cmd
+          command: ls -laR ..
+          shell: base
 
 #      - run:
 #          command: dir "C:/" /s
