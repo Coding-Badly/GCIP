@@ -22,7 +22,8 @@ jobs:
 #      - run: printenv
 #      - run: printenv
 #      - run: ls -laR "/c/Program Files (x86)/WiX Toolset v3.14/" || true
-      - run: ps --help
+#      - run: ps --help
+      - run: ps --all --long --windows
 
 # WIX=C:\Program Files (x86)\WiX Toolset v3.14\
 
