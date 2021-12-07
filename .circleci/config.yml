@@ -20,7 +20,7 @@ jobs:
             echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
       - run: printenv
       - run: ls -la
-      - run: cargo build --locked --release --manifest-path ./Cargo.toml
+      - run: CARGO_NET_GIT_FETCH_WITH_CLI=true cargo build --locked --release --manifest-path ./Cargo.toml
 
 
 #      - run:
