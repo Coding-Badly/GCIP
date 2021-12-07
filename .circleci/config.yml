@@ -13,7 +13,7 @@ jobs:
       - run:
           command: 'Get-ChildItem env:'
           shell: PowerShell
-      - run: ls / -la
+      - run: ls / -laR
 
 #      - run:
 #          command: dir C:\ /s
