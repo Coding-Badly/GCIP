@@ -2,7 +2,6 @@ version: 2.1
 
 orbs:
   win: circleci/windows@2.4.1
-  github-cli: circleci/github-cli@1.0.5
 
 jobs:
   build:
@@ -11,23 +10,26 @@ jobs:
       size: medium
       shell: bash
     steps:
-      - gh/setup
+      - run: windres
+#      - checkout
+#      - run: curl -o "rustup-init.exe" "https://win.rustup.rs/"
+#      - run: ./rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
+#      - run: mkdir .cargo
+#      - run: echo "[net]" >> .cargo/config.toml
+#      - run: echo "git-fetch-with-cli = true" >> .cargo/config.toml
+#      - run:
+#          command: |
+#            echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
+#      - run: ls -laR ..
+#      - run: cargo build --locked --release --manifest-path ./Cargo.toml
+
+#  github-cli: circleci/github-cli@1.0.5
+#      - gh/setup
+#      - run: printenv
+#      - run: ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete "0.0.1" ./target/release/gcip.exe
 #      - run: ls -laR ..
 #      - run: go get github.com/tcnksm/ghr
-      - checkout
-      - run: curl -o "rustup-init.exe" "https://win.rustup.rs/"
-      - run: ./rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
 #      - run: ls -laR ..
-      - run: mkdir .cargo
-      - run: echo "[net]" >> .cargo/config.toml
-      - run: echo "git-fetch-with-cli = true" >> .cargo/config.toml
-      - run:
-          command: |
-            echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
-#      - run: printenv
-      - run: ls -laR ..
-      - run: cargo build --locked --release --manifest-path ./Cargo.toml
-#      - run: ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete "0.0.1" ./target/release/gcip.exe
 
 #VERSION=$(my-binary --version)
 #ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/
