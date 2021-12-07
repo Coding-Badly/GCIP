@@ -10,17 +10,17 @@ jobs:
       size: medium
       shell: bash
     steps:
-      - run: ls -laR ..
+#      - run: ls -laR ..
       - checkout
       - run: curl -o "rustup-init.exe" "https://win.rustup.rs/"
       - run: ./rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
-      - run: ls -laR ..
+#      - run: ls -laR ..
+      - run:
+          command: |
+            echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
       - run: printenv
       - run: cargo build --manifest-path original/Cargo.toml
 
-#      - run:
-#          command: |
-#            echo 'export PATH=$GOPATH/bin:$PATH' >> $BASH_ENV
 
 #      - run:
 #          command: rustc -Vv
