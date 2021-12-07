@@ -10,17 +10,22 @@ jobs:
       size: medium
       shell: bash
     steps:
-      - checkout
-      - run: curl -o "rustup-init.exe" "https://win.rustup.rs/"
-      - run: ls -la
-      - run: ./rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --no-modify-path --profile minimal
-      - run: ls -la
       - run:
-          command: |
-            $env:Path += ";C:\Users\circleci\.cargo\bin"
+          command: 'Get-ChildItem env:'
           shell: PowerShell
-      - run: rustc -Vv
-      - run: cargo --version
+      - run: dir "C:\" /s
+
+#      - checkout
+#      - run: curl -o "rustup-init.exe" "https://win.rustup.rs/"
+#      - run: ls -la
+#      - run: ./rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --no-modify-path --profile minimal
+#      - run: ls -la
+#      - run:
+#          command: |
+#            $env:Path += ";C:\Users\circleci\.cargo\bin"
+#          shell: PowerShell
+#      - run: rustc -Vv
+#      - run: cargo --version
 
 
 #      - run: 'Write-Host ''Hello, Windows'''
