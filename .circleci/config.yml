@@ -11,7 +11,19 @@ jobs:
       size: medium
       shell: bash
     steps:
-      - run: curl -o "wix311.exe" "https://github.com/wixtoolset/wix3/releases/download/wix3112rtm/wix311.exe"
+#      - run: curl -o "wix311.exe" "https://github.com/wixtoolset/wix3/releases/download/wix3112rtm/wix311.exe"
+      - run: curl -o "wix314.exe" "https://wixtoolset.org/downloads/v3.14.0.5722/wix314.exe"
+      - run: ./wix314.exe /quiet
+      - run: printenv
+      - run: printenv
+      - run: printenv
+      - run: printenv
+      - run: printenv
+
+# WIX=C:\Program Files (x86)\WiX Toolset v3.14\
+
+
+# WiX Toolset requires the .NET Framework 3.5.1 Windows feature to be enabled
 
 #      - github-cli/setup
 #      - checkout
