@@ -13,7 +13,8 @@ jobs:
     steps:
 #      - github-cli/setup
 #      - checkout
-      - run: rc.exe
+#      - run: rc.exe
+      - run: winres.exe
 
 #      - run: ls -laR /c
 #      - run: windres
