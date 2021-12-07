@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   win: circleci/windows@2.4.1
-  github-cli: circleci/github-cli@1.0.5
+#  github-cli: circleci/github-cli@1.0.5
 
 jobs:
   build:
@@ -10,8 +10,13 @@ jobs:
       name: win/default
       size: medium
       shell: bash
+    docker:
+      - image: cimg/rust:1.57.0
     steps:
-      - github-cli/setup
+#      - github-cli/setup
+      - checkout
+      - run: cargo --version
+
 #      - run: ls -laR /c
 #      - run: windres
 #      - checkout
