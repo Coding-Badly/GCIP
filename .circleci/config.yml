@@ -11,7 +11,9 @@ jobs:
       size: medium
       shell: bash
     steps:
-      - run: DISM /Online /Enable-Feature /FeatureName:NetFx3 /All
+      - run: 
+          command: DISM /Online /Enable-Feature /FeatureName:NetFx3 /All
+          shell: cmd
 
 #      - run: docker --help
       # https://wixtoolset.org/releases/
