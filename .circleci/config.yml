@@ -16,6 +16,7 @@ jobs:
           command: DISM /Online /Enable-Feature /FeatureName:NetFx3 /All
           shell: cmd
       - run: choco install wixtoolset
+      - run: ls -la "/c/Program Files (x86)/" || true
 
 #choco install windows-sdk-10.1
 
