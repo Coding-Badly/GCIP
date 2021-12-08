@@ -12,13 +12,10 @@ jobs:
       shell: bash
     steps:
       - run: choco install -y wixtoolset
-      - run: ls -la "/c/Program Files (x86)/WiX Toolset v3.11" || true
-      - run: printenv
       - run:
           command: |
             echo 'export PATH=$PATH:/c/Program\ Files\ \(x86\)/WiX\ Toolset\ v3.11/bin' >> $BASH_ENV
-      - run: cat $BASH_ENV
-      - run: dark || true
+      - run: dark
 
 
 #      - run:
@@ -155,6 +152,10 @@ jobs:
 #          shell: cmd
 
 #      - run: cat /c/ProgramData/chocolatey/logs/chocolatey.log
+
+#      - run: ls -la "/c/Program Files (x86)/WiX Toolset v3.11" || true
+#      - run: printenv
+#      - run: cat $BASH_ENV
 
 workflows:
   my-workflow:
