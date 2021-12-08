@@ -19,8 +19,9 @@ jobs:
       - run: ls -la "/c/Program Files (x86)/" || true
       - run: dark || true
       - run:
-          command: dir "/dark.exe" /s /b
+          command: dir "\dark.exe" /s /b > junk.txt
           shell: cmd
+      - run: cat junk.txt
 
 #choco install windows-sdk-10.1
 
