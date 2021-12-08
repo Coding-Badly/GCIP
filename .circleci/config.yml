@@ -18,7 +18,9 @@ jobs:
       - run: choco install wixtoolset
       - run: ls -la "/c/Program Files (x86)/" || true
       - run: dark || true
-      - run: dir "/dark.exe" /s /b
+      - run:
+          command: dir "/dark.exe" /s /b
+          shell: cmd
 
 #choco install windows-sdk-10.1
 
