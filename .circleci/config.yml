@@ -16,12 +16,13 @@ jobs:
           command: DISM /Online /Enable-Feature /FeatureName:NetFx3 /All
           shell: cmd
       - run: choco install wixtoolset
-      - run: ls -la "/c/Program Files (x86)/" || true
-      - run: dark || true
-      - run:
-          command: dir "\dark.exe" /s /b > junk.txt
-          shell: cmd
-      - run: cat junk.txt
+      - run cat /c/ProgramData/chocolatey/logs/chocolatey.log
+#      - run: ls -la "/c/Program Files (x86)/" || true
+#      - run: dark || true
+#      - run:
+#          command: dir "\dark.exe" /s /b > junk.txt
+#          shell: cmd
+#      - run: cat junk.txt
 
 #choco install windows-sdk-10.1
 
