@@ -11,6 +11,14 @@ jobs:
       size: medium
       shell: bash
     steps:
+      # .NET 3.5 is required for WiX 3.11
+      - run: 
+          command: DISM /Online /Enable-Feature /FeatureName:NetFx3 /All
+          shell: cmd
+      - run: choco install wixtoolset
+
+#choco install windows-sdk-10.1
+
 #      # .NET 3.5 is required for WiX 3.11
 #      - run: 
 #          command: DISM /Online /Enable-Feature /FeatureName:NetFx3 /All
@@ -26,12 +34,16 @@ jobs:
 #          command: wix311.exe /quiet
 #          shell: cmd
 
-      # https://wixtoolset.org/releases/v3-14-0-5722/
-      - run: curl -o "wix314.exe" "https://wixtoolset.org/downloads/v3.14.0.5722/wix314.exe"
-      - run:
-          command: wix314.exe /quiet
-          shell: cmd
-      - run: ls -la "/c/Program Files (x86)/" || true
+#      # https://wixtoolset.org/releases/v3-14-0-5722/
+#      - run: curl -o "wix314.exe" "https://wixtoolset.org/downloads/v3.14.0.5722/wix314.exe"
+#
+#      # The command below works when run from a command prompt on an EC2 instance.  It does not
+#      # appear to be working in CircleCI.  The installer runs as a GUI application (detached).
+#      # In any case, the installer does not appear to run long enough to do what it needs to do.
+#      - run:
+#          command: wix314.exe /quiet
+#          shell: cmd
+#      - run: ls -la "/c/Program Files (x86)/" || true
 
 #          ps --all --long --windows
 #          ps --all --long --windows
