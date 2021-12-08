@@ -16,7 +16,9 @@ jobs:
           shell: cmd
       # https://wixtoolset.org/releases/
       - run: curl -L -o "wix311.exe" "https://github.com/wixtoolset/wix3/releases/download/wix3112rtm/wix311.exe"
-      - run: ./wix311.exe /quiet
+      - run:
+          command: wix311.exe /quiet
+          shell: cmd
       - run: |
           ps --all --long --windows
           ps --all --long --windows
