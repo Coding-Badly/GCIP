@@ -11,13 +11,14 @@ jobs:
       size: medium
       shell: bash
     steps:
+      - run: echo "${BASH_VERSION}"
       # .NET 3.5 is required for WiX 3.11
       - run: 
           command: DISM /Online /Enable-Feature /FeatureName:NetFx3 /All
           shell: cmd
-      - run: choco install wixtoolset
-      - run: cat /c/ProgramData/chocolatey/logs/chocolatey.log
-#      - run: ls -la "/c/Program Files (x86)/" || true
+      - run: choco install -y wixtoolset
+#      - run: cat /c/ProgramData/chocolatey/logs/chocolatey.log
+      - run: ls -la "/c/Program Files (x86)/" || true
 #      - run: dark || true
 #      - run:
 #          command: dir "\dark.exe" /s /b > junk.txt
