@@ -11,17 +11,14 @@ jobs:
       size: medium
       shell: bash
     steps:
-      - run: echo "${BASH_VERSION}"
-        # 4.4.23(1)-release
-      # .NET 3.5 is required for WiX 3.11
-#      - run: 
-#          command: DISM /Online /Enable-Feature /FeatureName:NetFx3 /All
-#          shell: cmd
       - run: choco install -y wixtoolset
-#      - run: cat /c/ProgramData/chocolatey/logs/chocolatey.log
       - run: ls -la "/c/Program Files (x86)/WiX Toolset v3.11" || true
       - run: printenv
-#      - run: dark || true
+      - run:
+          command: |
+            echo 'export PATH=$PATH:/c/Program Files (x86)/WiX Toolset v3.11/bin' >> $BASH_ENV
+      - run: dark || true
+
 #      - run:
 #          command: dir "\dark.exe" /s /b > junk.txt
 #          shell: cmd
@@ -148,6 +145,14 @@ jobs:
 #          ps --all --long --windows
 #          ps --all --long --windows
 
+#      - run: echo "${BASH_VERSION}"
+#        # 4.4.23(1)-release
+      # .NET 3.5 is required for WiX 3.11
+#      - run: 
+#          command: DISM /Online /Enable-Feature /FeatureName:NetFx3 /All
+#          shell: cmd
+
+#      - run: cat /c/ProgramData/chocolatey/logs/chocolatey.log
 
 workflows:
   my-workflow:
