@@ -28,19 +28,27 @@ jobs:
 #            echo 'export PATH=$PATH:/c/Program\ Files\ \(x86\)/WiX\ Toolset\ v3.11/bin' >> $BASH_ENV
 #      - run: dark
 
-      # Install Rust.  Don't use the Chocolatey version.  It tends to have minor issues and be a
-      # bit behind the latest version.
-      - run: curl -o "rustup-init.exe" "https://win.rustup.rs/"
-      - run: ./rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
-      - run: mkdir .cargo
-      # The built-in Git client doesn't work.  Use the command line client.
-      - run: echo "[net]" >> .cargo/config.toml
-      - run: echo "git-fetch-with-cli = true" >> .cargo/config.toml
-      - run:
-          command: |
-            echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
+#      # Install Rust.  Don't use the Chocolatey version.  It tends to have minor issues and be a
+#      # bit behind the latest version.
+#      - run: curl -o "rustup-init.exe" "https://win.rustup.rs/"
+#      - run: ./rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
+#      - run: mkdir .cargo
+#      # The built-in Git client doesn't work.  Use the command line client.
+#      - run: echo "[net]" >> .cargo/config.toml
+#      - run: echo "git-fetch-with-cli = true" >> .cargo/config.toml
+#      - run:
+#          command: |
+#            echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
 
-      - run: cargo build --locked --release --manifest-path ./Cargo.toml
+      - run: 
+          name: "Install cargo-wix; clone"
+          command: git clone --single-branch --branch rusty-pipe https://github.com/Coding-Badly/cargo-wix.git
+          working_directory: ".."
+      - run: ls -la ..
+
+
+#      - run: cargo build --locked --release --manifest-path ./Cargo.toml
+
 
 #      - run: ls -laR ..
 #      - run:
