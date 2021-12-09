@@ -37,7 +37,7 @@ jobs:
             echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
 
       # The built-in Git client doesn't work.  Use the command line client.
-      - run: mkdir ~/.cargo
+      - run: mkdir ~/.cargo || true
       - run: echo "[net]" >> ~/.cargo/config.toml
       - run: echo "git-fetch-with-cli = true" >> ~/.cargo/config.toml
 
