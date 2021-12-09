@@ -11,10 +11,13 @@ jobs:
       size: medium
       shell: bash
     steps:
+      - checkout
+
 #      - run: python --version
 #        # Python 3.7.3
 
-      - run: aws --version
+#      - run: aws --version
+#        # aws-cli/1.16.209 Python/3.6.0 Windows/10 botocore/1.12.199
 
 #      - run: pip3 install awscli
 
@@ -25,23 +28,21 @@ jobs:
 #            echo 'export PATH=$PATH:/c/Program\ Files\ \(x86\)/WiX\ Toolset\ v3.11/bin' >> $BASH_ENV
 #      - run: dark
 
-#      # Install Rust.  Don't use the Chocolatey version.  It tends to have minor issues and be a
-#      # bit behind the latest version.
-#      - run: curl -o "rustup-init.exe" "https://win.rustup.rs/"
-#      - run: ./rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
-#      - run: mkdir .cargo
-#      # The built-in Git client doesn't work.  Use the command line client.
-#      - run: echo "[net]" >> .cargo/config.toml
-#      - run: echo "git-fetch-with-cli = true" >> .cargo/config.toml
-#      - run:
-#          command: |
-#            echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
+      # Install Rust.  Don't use the Chocolatey version.  It tends to have minor issues and be a
+      # bit behind the latest version.
+      - run: curl -o "rustup-init.exe" "https://win.rustup.rs/"
+      - run: ./rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
+      - run: mkdir .cargo
+      # The built-in Git client doesn't work.  Use the command line client.
+      - run: echo "[net]" >> .cargo/config.toml
+      - run: echo "git-fetch-with-cli = true" >> .cargo/config.toml
+      - run:
+          command: |
+            echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
 
-#      - checkout
-#      - run: cargo build --locked --release --manifest-path ./Cargo.toml
+      - run: cargo build --locked --release --manifest-path ./Cargo.toml
 
 #      - run: ls -laR ..
-
 #      - run:
 #          command: dir "\dark.exe" /s /b > junk.txt
 #          shell: cmd
