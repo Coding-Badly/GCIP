@@ -25,9 +25,7 @@ jobs:
 
 #      # Install WiX.  It's used to build our installer.
 #      - run: choco install -y wixtoolset
-#      - run:
-#          command: |
-#            echo 'export PATH=$PATH:/c/Program\ Files\ \(x86\)/WiX\ Toolset\ v3.11/bin' >> $BASH_ENV
+#      - run: echo 'export PATH=$PATH:/c/Program\ Files\ \(x86\)/WiX\ Toolset\ v3.11/bin' >> $BASH_ENV
 #      - run: dark
 
       # Install Rust.  Don't use the Chocolatey version.  It tends to have minor issues and be a
@@ -35,9 +33,7 @@ jobs:
       - run: curl --location --silent --output "$TEMP/rustup-init.exe" "https://win.rustup.rs/"
       - run: $TEMP/rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
       - run: echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
-      - run:
-          name: "Report the compiler version"
-          command: rustc --version
+      - run: rustc --version
 
       # The built-in Git client doesn't work.  Use the command line client.
       - run: mkdir ~/.cargo || true
@@ -102,6 +98,7 @@ jobs:
       # Bulid GCIP
       - run: cargo build --locked --release --manifest-path ./Cargo.toml
 
+      # Publish the executable to GitHub
       - run:
           name: "Publish a release to GitHub"
           command: >
