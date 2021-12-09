@@ -12,6 +12,7 @@ jobs:
       shell: bash
     steps:
       - run: go get -u github.com/tcnksm/ghr
+      - run: printenv
 
 #      - checkout
 
