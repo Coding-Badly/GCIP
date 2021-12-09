@@ -46,12 +46,11 @@ jobs:
           working_directory: ".."
       - run:
           name: "Install cargo-wix; install"
-          run: cargo install --path cargo-wix
+          command: cargo install --path cargo-wix
           working_directory: ".."
-
       - run:
           name: "Report the compiler version"
-          run: rustc --version
+          command: rustc --version
 
 
       - run: ls -la ..
