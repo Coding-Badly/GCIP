@@ -21,12 +21,12 @@ jobs:
 
 #      - run: pip3 install awscli
 
-#      # Install WiX.  It's used to build our installer.
-#      - run: choco install -y wixtoolset
-#      - run:
-#          command: |
-#            echo 'export PATH=$PATH:/c/Program\ Files\ \(x86\)/WiX\ Toolset\ v3.11/bin' >> $BASH_ENV
-#      - run: dark
+      # Install WiX.  It's used to build our installer.
+      - run: choco install -y wixtoolset
+      - run:
+          command: |
+            echo 'export PATH=$PATH:/c/Program\ Files\ \(x86\)/WiX\ Toolset\ v3.11/bin' >> $BASH_ENV
+      - run: dark
 
 #      # Install Rust.  Don't use the Chocolatey version.  It tends to have minor issues and be a
 #      # bit behind the latest version.
