@@ -11,10 +11,12 @@ jobs:
       size: medium
       shell: bash
     steps:
-      - run: ls -laR $GooGetRoot
+#      - run: ls -laR $GooGetRoot
       - run: go get -u github.com/tcnksm/ghr
       - run: printenv
-      - run: ls -laR $GooGetRoot
+      - run: 
+          name: "Dump the entire disk"
+          command: ls -laR /c
 
 # $GOPATH/bin/hello
 
