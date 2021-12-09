@@ -20,6 +20,7 @@ jobs:
       # Install ghr (GitHub Release)
       - run: go get -u github.com/tcnksm/ghr
       - run: echo 'export PATH=$PATH:/c/Users/circleci/go/bin' >> $BASH_ENV
+      - run: ghr --version
 
 #      - run: python --version
 #        # Python 3.7.3
@@ -38,6 +39,7 @@ jobs:
       - run: $TEMP/rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
       - run: echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
       - run: rustc --version
+      - run: cargo --version
 
       # The built-in Git client doesn't work.  Use the command line client.
       - run: mkdir ~/.cargo || true
