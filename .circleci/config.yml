@@ -34,9 +34,7 @@ jobs:
       # bit behind the latest version.
       - run: curl --location --silent --output "$TEMP/rustup-init.exe" "https://win.rustup.rs/"
       - run: $TEMP/rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
-      - run:
-          command: |
-            echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
+      - run: echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
       - run:
           name: "Report the compiler version"
           command: rustc --version
@@ -104,6 +102,19 @@ jobs:
       # Bulid GCIP
       - run: cargo build --locked --release --manifest-path ./Cargo.toml
 
+      - run:
+          name: "Publish a release to GitHub"
+          command: >
+            ghr
+            -t ${GITHUB_TOKEN}
+            -u ${CIRCLE_PROJECT_USERNAME}
+            -r ${CIRCLE_PROJECT_REPONAME}
+            -c ${CIRCLE_SHA1}
+            -n "Current Windows"
+            -b "Current version of G Code Insert Pause for Windows"
+            -delete
+            "current-windows"
+            ./target/release/gcip.exe
 
 #      - run: 
 #          name: "Dump the entire disk"
