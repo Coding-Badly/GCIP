@@ -11,10 +11,13 @@ jobs:
       size: medium
       shell: bash
     steps:
-      - run: ls -laR /c/Users/circleci/go/bin || true
+#      - run: ls -laR /c/Users/circleci/go/bin || true
       - run: go get -u github.com/tcnksm/ghr
-      - run: printenv
-      - run: ls -laR /c/Users/circleci/go/bin
+      - run: echo 'export PATH=$PATH:/c/Users/circleci/go/bin' >> $BASH_ENV
+      - run: ghr
+
+#      - run: printenv
+#      - run: ls -laR /c/Users/circleci/go/bin
 #      - run: 
 #          name: "Dump the entire disk"
 #          command: ls -laR /c
