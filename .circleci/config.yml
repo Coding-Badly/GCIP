@@ -11,7 +11,7 @@ jobs:
       size: medium
       shell: bash
     steps:
-      - run: ls -laR /c/Users/circleci/go/bin
+      - run: ls -laR /c/Users/circleci/go/bin && true
       - run: go get -u github.com/tcnksm/ghr
       - run: printenv
       - run: ls -laR /c/Users/circleci/go/bin
