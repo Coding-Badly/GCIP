@@ -11,7 +11,7 @@ jobs:
       size: medium
       shell: bash
     steps:
-      - checkout
+#      - checkout
 
 #      - run: python --version
 #        # Python 3.7.3
@@ -28,36 +28,42 @@ jobs:
 #            echo 'export PATH=$PATH:/c/Program\ Files\ \(x86\)/WiX\ Toolset\ v3.11/bin' >> $BASH_ENV
 #      - run: dark
 
-      # Install Rust.  Don't use the Chocolatey version.  It tends to have minor issues and be a
-      # bit behind the latest version.
-      - run: curl -o "$TEMP/rustup-init.exe" "https://win.rustup.rs/"
-      - run: $TEMP/rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
-      - run:
-          command: |
-            echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
-      - run:
-          name: "Report the compiler version"
-          command: rustc --version
+#      # Install Rust.  Don't use the Chocolatey version.  It tends to have minor issues and be a
+#      # bit behind the latest version.
+#      - run: curl -o "$TEMP/rustup-init.exe" "https://win.rustup.rs/"
+#      - run: $TEMP/rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
+#      - run:
+#          command: |
+#            echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
+#      - run:
+#          name: "Report the compiler version"
+#          command: rustc --version
 
-      # The built-in Git client doesn't work.  Use the command line client.
-      - run: mkdir ~/.cargo || true
-      - run: echo "[net]" >> ~/.cargo/config.toml
-      - run: echo "git-fetch-with-cli = true" >> ~/.cargo/config.toml
+#      # The built-in Git client doesn't work.  Use the command line client.
+#      - run: mkdir ~/.cargo || true
+#      - run: echo "[net]" >> ~/.cargo/config.toml
+#      - run: echo "git-fetch-with-cli = true" >> ~/.cargo/config.toml
+
+#      - run: 
+#          name: "Install cargo-wix; clone"
+#          command: git clone --single-branch --branch rusty-pipe https://github.com/Coding-Badly/cargo-wix.git
+#          working_directory: ".."
+#      - run:
+#          name: "Install cargo-wix; install"
+#          command: cargo install --path cargo-wix
+#          working_directory: ".."
+
+#      - run: ls -la
 
       - run: 
-          name: "Install cargo-wix; clone"
-          command: git clone --single-branch --branch rusty-pipe https://github.com/Coding-Badly/cargo-wix.git
-          working_directory: ".."
-      - run:
-          name: "Install cargo-wix; install"
-          command: cargo install --path cargo-wix
-          working_directory: ".."
-
-      - run: ls -la
+          name: "Dump the entire disk"
+          command: ls -laR /c >> %TEMP/c.txt
+      - store_artifacts:
+          path: %TEMP/c.txt
+          destination: entire-c-drive.txt
 
 
 #      - run: cargo build --locked --release --manifest-path ./Cargo.toml
-
 
 #      - run: ls -laR ..
 #      - run:
