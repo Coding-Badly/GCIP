@@ -57,10 +57,13 @@ jobs:
 
       - run: 
           name: "Dump the entire disk"
-          command: ls -laR /c >> $TEMP/c.txt
-      - store_artifacts:
-          path: $TEMP/c.txt
-          destination: entire-c-drive.txt
+          command: ls -laR /c
+#      - run: 
+#          name: "Dump the entire disk"
+#          command: ls -laR /c >> $TEMP/c.txt
+#      - store_artifacts:
+#          path: $TEMP/c.txt
+#          destination: entire-c-drive.txt
 
 
 #      - run: cargo build --locked --release --manifest-path ./Cargo.toml
