@@ -11,7 +11,9 @@ jobs:
       size: medium
       shell: bash
     steps:
-      - checkout
+      - run: go get -u github.com/tcnksm/ghr
+
+#      - checkout
 
 #      - run: python --version
 #        # Python 3.7.3
@@ -19,14 +21,12 @@ jobs:
 #      - run: aws --version
 #        # aws-cli/1.16.209 Python/3.6.0 Windows/10 botocore/1.12.199
 
-#      - run: pip3 install awscli
-
-      # Install WiX.  It's used to build our installer.
-      - run: choco install -y wixtoolset
-      - run:
-          command: |
-            echo 'export PATH=$PATH:/c/Program\ Files\ \(x86\)/WiX\ Toolset\ v3.11/bin' >> $BASH_ENV
-      - run: dark
+#      # Install WiX.  It's used to build our installer.
+#      - run: choco install -y wixtoolset
+#      - run:
+#          command: |
+#            echo 'export PATH=$PATH:/c/Program\ Files\ \(x86\)/WiX\ Toolset\ v3.11/bin' >> $BASH_ENV
+#      - run: dark
 
 #      # Install Rust.  Don't use the Chocolatey version.  It tends to have minor issues and be a
 #      # bit behind the latest version.
@@ -53,54 +53,51 @@ jobs:
 #          command: cargo install --path cargo-wix
 #          working_directory: ".."
 
-      - run:
-          name: "Fetch the latest Visual C++ Redistributable"
-# Ideally we always use the latest Visual C run time libraries...
-#      run: curl --location --silent --output vc_redist.x64.exe "https://aka.ms/vs/16/release/vc_redist.x64.exe"
-# Sometime before 2021-06-15 Microsoft (finally) switched to a single stub DLL with the actual run
-# time libraries installed with the operating system.  Before using those we need to test on
-# Windows 7 / Server 2012 R2 and Windows 10 / Server 2016+.  Until we have had a chance to test
-# we're going to pin to the last version that included the full run time.
-          command: curl --location --silent --output $TEMP/vc_redist.x64.exe "https://aka.ms/vs/16/release/14.28.29914/VC_Redist.x64.exe"
-          # Don't use PowerShell's curl.  It's wretchedly slow.
-          shell: bash
+#      - run:
+#          name: "Fetch the latest Visual C++ Redistributable"
+## Ideally we always use the latest Visual C run time libraries...
+##      run: curl --location --silent --output vc_redist.x64.exe "https://aka.ms/vs/16/release/vc_redist.x64.exe"
+## Sometime before 2021-06-15 Microsoft (finally) switched to a single stub DLL with the actual run
+## time libraries installed with the operating system.  Before using those we need to test on
+## Windows 7 / Server 2012 R2 and Windows 10 / Server 2016+.  Until we have had a chance to test
+## we're going to pin to the last version that included the full run time.
+#          command: curl --location --silent --output $TEMP/vc_redist.x64.exe "https://aka.ms/vs/16/release/14.28.29914/VC_Redist.x64.exe"
+#          # Don't use PowerShell's curl.  It's wretchedly slow.
+#          shell: bash
 
-#      working-directory: "./original/wix"
+#      - run:
+#          name: "Expand Visual C++ Redistributable"
+#          command: |
+#            dark $TEMP/vc_redist.x64.exe -x vc_redist
+#          working_directory: "./original/wix"
 
-      - run:
-          name: "Expand Visual C++ Redistributable"
-          command: |
-            dark $TEMP/vc_redist.x64.exe -x vc_redist
-          working_directory: "./original/wix"
-#      shell: cmd
+#      - run: ls -laR "./original/wix"
 
-      - run: ls -laR "./original/wix"
+#      - run:
+#          name: "Expand dlls"
+#          command: >
+#            7z x -y -odlls AttachedContainer/packages/vcRuntimeMinimum_amd64/cab1.cab
+#            vcruntime140.dll
+#            api_ms_win_crt_math_l1_1_0.dll
+#            api_ms_win_crt_heap_l1_1_0.dll
+#            api_ms_win_crt_string_l1_1_0.dll
+#            api_ms_win_crt_runtime_l1_1_0.dll
+#            api_ms_win_crt_stdio_l1_1_0.dll
+#            api_ms_win_crt_locale_l1_1_0.dll
+#          working_directory: "./original/wix/vc_redist"
 
-      - run:
-          name: "Expand dlls"
-          command: >
-            7z x -y -odlls AttachedContainer/packages/vcRuntimeMinimum_amd64/cab1.cab
-            vcruntime140.dll
-            api_ms_win_crt_math_l1_1_0.dll
-            api_ms_win_crt_heap_l1_1_0.dll
-            api_ms_win_crt_string_l1_1_0.dll
-            api_ms_win_crt_runtime_l1_1_0.dll
-            api_ms_win_crt_stdio_l1_1_0.dll
-            api_ms_win_crt_locale_l1_1_0.dll
-          working_directory: "./original/wix/vc_redist"
-
-      - run:
-          name: "Rename dlls"
-          # For whatever reason vc_redist.x64.exe names these with underscores internally
-          # despite them needing to be named with dashes at runtime
-          command: |
-            mv api_ms_win_crt_math_l1_1_0.dll api-ms-win-crt-math-l1-1-0.dll
-            mv api_ms_win_crt_heap_l1_1_0.dll api-ms-win-crt-heap-l1-1-0.dll
-            mv api_ms_win_crt_string_l1_1_0.dll api-ms-win-crt-string-l1-1-0.dll
-            mv api_ms_win_crt_runtime_l1_1_0.dll api-ms-win-crt-runtime-l1-1-0.dll
-            mv api_ms_win_crt_stdio_l1_1_0.dll api-ms-win-crt-stdio-l1-1-0.dll
-            mv api_ms_win_crt_locale_l1_1_0.dll api-ms-win-crt-locale-l1-1-0.dll
-          working_directory: "./original/wix/vc_redist/dlls"
+#      - run:
+#          name: "Rename dlls"
+#          # For whatever reason vc_redist.x64.exe names these with underscores internally
+#          # despite them needing to be named with dashes at runtime
+#          command: |
+#            mv api_ms_win_crt_math_l1_1_0.dll api-ms-win-crt-math-l1-1-0.dll
+#            mv api_ms_win_crt_heap_l1_1_0.dll api-ms-win-crt-heap-l1-1-0.dll
+#            mv api_ms_win_crt_string_l1_1_0.dll api-ms-win-crt-string-l1-1-0.dll
+#            mv api_ms_win_crt_runtime_l1_1_0.dll api-ms-win-crt-runtime-l1-1-0.dll
+#            mv api_ms_win_crt_stdio_l1_1_0.dll api-ms-win-crt-stdio-l1-1-0.dll
+#            mv api_ms_win_crt_locale_l1_1_0.dll api-ms-win-crt-locale-l1-1-0.dll
+#          working_directory: "./original/wix/vc_redist/dlls"
 
 
 #      - run: 
@@ -262,6 +259,9 @@ jobs:
 #      - run: ls -la "/c/Program Files (x86)/WiX Toolset v3.11" || true
 #      - run: printenv
 #      - run: cat $BASH_ENV
+
+#      - run: pip3 install awscli
+
 
 workflows:
   my-workflow:
