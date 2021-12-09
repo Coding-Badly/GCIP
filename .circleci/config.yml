@@ -30,7 +30,7 @@ jobs:
 
 #      # Install Rust.  Don't use the Chocolatey version.  It tends to have minor issues and be a
 #      # bit behind the latest version.
-#      - run: curl -o "$TEMP/rustup-init.exe" "https://win.rustup.rs/"
+#      - run: curl --location --silent --output "$TEMP/rustup-init.exe" "https://win.rustup.rs/"
 #      - run: $TEMP/rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
 #      - run:
 #          command: |
@@ -53,6 +53,26 @@ jobs:
 #          command: cargo install --path cargo-wix
 #          working_directory: ".."
 
+      - run:
+          name: "Fetch the latest Visual C++ Redistributable"
+# Ideally we always use the latest Visual C run time libraries...
+#      run: curl --location --silent --output vc_redist.x64.exe "https://aka.ms/vs/16/release/vc_redist.x64.exe"
+# Sometime before 2021-06-15 Microsoft (finally) switched to a single stub DLL with the actual run
+# time libraries installed with the operating system.  Before using those we need to test on
+# Windows 7 / Server 2012 R2 and Windows 10 / Server 2016+.  Until we have had a chance to test
+# we're going to pin to the last version that included the full run time.
+          command: curl --location --silent --output vc_redist.x64.exe "https://aka.ms/vs/16/release/14.28.29914/VC_Redist.x64.exe"
+          # Don't use PowerShell's curl.  It's wretchedly slow.
+          shell: bash
+
+#      working-directory: "./original/wix"
+
+#    - name: "Expand Visual C++ Redistributable"
+#      run: |
+#        \wix\dark vc_redist.x64.exe -x vc_redist
+#      working-directory: "./original/wix"
+#      shell: cmd
+
 #      - run: ls -la
 
 #      - run: 
@@ -65,12 +85,12 @@ jobs:
 #          path: $TEMP/c.txt
 #          destination: entire-c-drive.txt
 
-      - run:
-          command: |
-            echo 'export PATH=$PATH:/c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/10.0.22000.0/x64' >> $BASH_ENV
-      - run: 
-          name: "Can we sign?"
-          command: signtool.exe
+#      - run:
+#          command: |
+#            echo 'export PATH=$PATH:/c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/10.0.22000.0/x64' >> $BASH_ENV
+#      - run: 
+#          name: "Can we sign?"
+#          command: signtool.exe
 
 
 #      - run: cargo build --locked --release --manifest-path ./Cargo.toml
@@ -89,7 +109,7 @@ jobs:
 #          shell: cmd
 #
 #      # https://wixtoolset.org/releases/
-#      - run: curl -L -o "wix311.exe" "https://github.com/wixtoolset/wix3/releases/download/wix3112rtm/wix311.exe"
+#      - run: curl --location --silent --output "wix311.exe" "https://github.com/wixtoolset/wix3/releases/download/wix3112rtm/wix311.exe"
 #
 #      # The command below works when run from a command prompt on an EC2 instance.  It does not
 #      # appear to be working in CircleCI.  The installer runs as a GUI application (detached).
@@ -99,7 +119,7 @@ jobs:
 #          shell: cmd
 
 #      # https://wixtoolset.org/releases/v3-14-0-5722/
-#      - run: curl -o "wix314.exe" "https://wixtoolset.org/downloads/v3.14.0.5722/wix314.exe"
+#      - run: curl --location --silent --output "wix314.exe" "https://wixtoolset.org/downloads/v3.14.0.5722/wix314.exe"
 #
 #      # The command below works when run from a command prompt on an EC2 instance.  It does not
 #      # appear to be working in CircleCI.  The installer runs as a GUI application (detached).
@@ -134,7 +154,7 @@ jobs:
 #      - run: ls -laR /c
 #      - run: windres
 #      - checkout
-#      - run: curl -o "rustup-init.exe" "https://win.rustup.rs/"
+#      - run: curl --location --silent --output "rustup-init.exe" "https://win.rustup.rs/"
 #      - run: ./rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
 #      - run: mkdir .cargo
 #      - run: echo "[net]" >> .cargo/config.toml
@@ -177,7 +197,7 @@ jobs:
 #          command: dir C:\ /s
 #          shell: cmd
 #      - checkout
-#      - run: curl -o "rustup-init.exe" "https://win.rustup.rs/"
+#      - run: curl --location --silent --output "rustup-init.exe" "https://win.rustup.rs/"
 #      - run: ls -la
 #      - run: ./rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --no-modify-path --profile minimal
 #      - run: ls -la
