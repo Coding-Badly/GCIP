@@ -67,7 +67,7 @@ jobs:
 
       - run: 
           name: "Can we sign?"
-          command: "/c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/10.0.22000.0/x64/signtool.exe"
+          command: /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/10.0.22000.0/x64/signtool.exe
 
 
 #      - run: cargo build --locked --release --manifest-path ./Cargo.toml
