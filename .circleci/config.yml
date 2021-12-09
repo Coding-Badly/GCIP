@@ -17,17 +17,29 @@ jobs:
       # CIRCLE_PROJECT_USERNAME = Coding-Badly
       # CIRCLE_PROJECT_REPONAME = GCIP
       # CIRCLE_SHA1 = 31c37fdc409bc79c56e42fb8eb66cb52ca732b46
+      - run: echo ${CIRCLE_PROJECT_USERNAME}
       - run:
           name: "Publish a release to GitHub"
           command: >
-            VERSION="1.0.0"
             ghr
             -t ${GITHUB_TOKEN}
             -u ${CIRCLE_PROJECT_USERNAME}
             -r ${CIRCLE_PROJECT_REPONAME}
             -c ${CIRCLE_SHA1}
-            -delete ${VERSION}
+            -delete
+            "1.0.0"
             /c/Users/circleci/go/bin/ghr.exe
+
+
+#            VERSION="1.0.0"
+#            ghr
+#            -t ${GITHUB_TOKEN}
+#            -u ${CIRCLE_PROJECT_USERNAME}
+#            -r ${CIRCLE_PROJECT_REPONAME}
+#            -c ${CIRCLE_SHA1}
+#            -delete
+#            ${VERSION}
+#            /c/Users/circleci/go/bin/ghr.exe
 
 #      - run: ls -laR /c/Users/circleci/go/bin
 #      - run: 
