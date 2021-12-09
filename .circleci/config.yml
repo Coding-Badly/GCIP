@@ -14,9 +14,22 @@ jobs:
 #      - run: ls -laR /c/Users/circleci/go/bin || true
       - run: go get -u github.com/tcnksm/ghr
       - run: echo 'export PATH=$PATH:/c/Users/circleci/go/bin' >> $BASH_ENV
-      - run: ghr
+      - run: printenv
+      # CIRCLE_PROJECT_USERNAME = Coding-Badly
+      # CIRCLE_PROJECT_REPONAME = GCIP
+      # CIRCLE_SHA1 = 31c37fdc409bc79c56e42fb8eb66cb52ca732b46
+      - run:
+          name: "Publish a release to GitHub"
+          command: >
+            VERSION="1.0.0"
+            ghr
+            -t ${GITHUB_TOKEN}
+            -u ${CIRCLE_PROJECT_USERNAME}
+            -r ${CIRCLE_PROJECT_REPONAME}
+            -c ${CIRCLE_SHA1}
+            -delete ${VERSION}
+            /c/Users/circleci/go/bin/ghr.exe
 
-#      - run: printenv
 #      - run: ls -laR /c/Users/circleci/go/bin
 #      - run: 
 #          name: "Dump the entire disk"
