@@ -53,8 +53,7 @@ jobs:
           command: cargo install --path cargo-wix
           working_directory: ".."
 
-
-      - run: ls -la ..
+      - run: ls -la
 
 
 #      - run: cargo build --locked --release --manifest-path ./Cargo.toml
