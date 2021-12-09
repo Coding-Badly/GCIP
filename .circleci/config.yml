@@ -89,6 +89,19 @@ jobs:
             api_ms_win_crt_locale_l1_1_0.dll
           working_directory: "./original/wix/vc_redist"
 
+      - run:
+          name: "Rename dlls"
+          # For whatever reason vc_redist.x64.exe names these with underscores internally
+          # despite them needing to be named with dashes at runtime
+          command: |
+            move api_ms_win_crt_math_l1_1_0.dll api-ms-win-crt-math-l1-1-0.dll
+            move api_ms_win_crt_heap_l1_1_0.dll api-ms-win-crt-heap-l1-1-0.dll
+            move api_ms_win_crt_string_l1_1_0.dll api-ms-win-crt-string-l1-1-0.dll
+            move api_ms_win_crt_runtime_l1_1_0.dll api-ms-win-crt-runtime-l1-1-0.dll
+            move api_ms_win_crt_stdio_l1_1_0.dll api-ms-win-crt-stdio-l1-1-0.dll
+            move api_ms_win_crt_locale_l1_1_0.dll api-ms-win-crt-locale-l1-1-0.dll
+          working_directory: "./original/wix/vc_redist/dlls"
+
 
 #      - run: 
 #          name: "Dump the entire disk"
