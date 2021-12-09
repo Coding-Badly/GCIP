@@ -11,7 +11,7 @@ jobs:
       size: medium
       shell: bash
     steps:
-#      - checkout
+      - checkout
 
 #      - run: python --version
 #        # Python 3.7.3
@@ -61,19 +61,20 @@ jobs:
 # time libraries installed with the operating system.  Before using those we need to test on
 # Windows 7 / Server 2012 R2 and Windows 10 / Server 2016+.  Until we have had a chance to test
 # we're going to pin to the last version that included the full run time.
-          command: curl --location --silent --output vc_redist.x64.exe "https://aka.ms/vs/16/release/14.28.29914/VC_Redist.x64.exe"
+          command: curl --location --silent --output $TEMP/vc_redist.x64.exe "https://aka.ms/vs/16/release/14.28.29914/VC_Redist.x64.exe"
           # Don't use PowerShell's curl.  It's wretchedly slow.
           shell: bash
 
 #      working-directory: "./original/wix"
 
-#    - name: "Expand Visual C++ Redistributable"
-#      run: |
-#        \wix\dark vc_redist.x64.exe -x vc_redist
-#      working-directory: "./original/wix"
+      - run:
+          name: "Expand Visual C++ Redistributable"
+          command: |
+            dark $TEMP/vc_redist.x64.exe -x vc_redist
+          working_directory: "./original/wix"
 #      shell: cmd
 
-#      - run: ls -la
+      - run: ls -laR "./original/wix"
 
 #      - run: 
 #          name: "Dump the entire disk"
