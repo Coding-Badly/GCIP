@@ -11,6 +11,8 @@ jobs:
       size: medium
       shell: bash
     steps:
+      - run: 7z
+
       - checkout
 
 #      - run: python --version
