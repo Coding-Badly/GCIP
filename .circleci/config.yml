@@ -30,11 +30,14 @@ jobs:
 
       # Install Rust.  Don't use the Chocolatey version.  It tends to have minor issues and be a
       # bit behind the latest version.
-      - run: curl -o "rustup-init.exe" "https://win.rustup.rs/"
-      - run: ./rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
+      - run: curl -o "$TEMP/rustup-init.exe" "https://win.rustup.rs/"
+      - run: $TEMP/rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
       - run:
           command: |
             echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
+      - run:
+          name: "Report the compiler version"
+          command: rustc --version
 
       # The built-in Git client doesn't work.  Use the command line client.
       - run: mkdir ~/.cargo || true
@@ -49,9 +52,6 @@ jobs:
           name: "Install cargo-wix; install"
           command: cargo install --path cargo-wix
           working_directory: ".."
-      - run:
-          name: "Report the compiler version"
-          command: rustc --version
 
 
       - run: ls -la ..
