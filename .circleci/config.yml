@@ -26,8 +26,10 @@ jobs:
             -u ${CIRCLE_PROJECT_USERNAME}
             -r ${CIRCLE_PROJECT_REPONAME}
             -c ${CIRCLE_SHA1}
+            -n "Current Windows"
+            -b "Current version of G Code Insert Pause for Windows"
             -delete
-            "1.0.0"
+            "Current Windows"
             /c/Users/circleci/go/bin/ghr.exe
 
 
