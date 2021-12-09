@@ -79,7 +79,7 @@ jobs:
       - run:
           name: "Expand dlls"
           command: >
-            7z x -y -odlls AttachedContainer\packages\vcRuntimeMinimum_amd64\cab1.cab
+            7z x -y -odlls AttachedContainer/packages/vcRuntimeMinimum_amd64/cab1.cab
             vcruntime140.dll
             api_ms_win_crt_math_l1_1_0.dll
             api_ms_win_crt_heap_l1_1_0.dll
