@@ -57,9 +57,9 @@ jobs:
 
       - run: 
           name: "Dump the entire disk"
-          command: ls -laR /c >> %TEMP/c.txt
+          command: ls -laR /c >> $TEMP/c.txt
       - store_artifacts:
-          path: %TEMP/c.txt
+          path: $TEMP/c.txt
           destination: entire-c-drive.txt
 
 
