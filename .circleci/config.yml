@@ -13,14 +13,14 @@ jobs:
     steps:
       - checkout
 
+      # Set PATH to the latest signtool
+      - run: echo 'export PATH=$PATH:/c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/10.0.22000.0/x64' >> $BASH_ENV
+      - run: signtool sign /?
+      
       # Install ghr (GitHub Release)
       - run: go get -u github.com/tcnksm/ghr
       - run: echo 'export PATH=$PATH:/c/Users/circleci/go/bin' >> $BASH_ENV
 
-      # Set PATH to the latest signtool
-      - run: echo 'export PATH=$PATH:/c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/10.0.22000.0/x64' >> $BASH_ENV
-      - run: signtool
-      
 #      - run: python --version
 #        # Python 3.7.3
 
