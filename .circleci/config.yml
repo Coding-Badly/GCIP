@@ -11,46 +11,11 @@ jobs:
       size: medium
       shell: bash
     steps:
+      - checkout
+
+      # Install ghr (GitHub Release)
       - run: go get -u github.com/tcnksm/ghr
       - run: echo 'export PATH=$PATH:/c/Users/circleci/go/bin' >> $BASH_ENV
-      - run: printenv
-      # CIRCLE_PROJECT_USERNAME = Coding-Badly
-      # CIRCLE_PROJECT_REPONAME = GCIP
-      # CIRCLE_SHA1 = 31c37fdc409bc79c56e42fb8eb66cb52ca732b46
-      - run: echo ${CIRCLE_PROJECT_USERNAME}
-      - run:
-          name: "Publish a release to GitHub"
-          command: >
-            ghr
-            -t ${GITHUB_TOKEN}
-            -u ${CIRCLE_PROJECT_USERNAME}
-            -r ${CIRCLE_PROJECT_REPONAME}
-            -c ${CIRCLE_SHA1}
-            -n "Current Windows"
-            -b "Current version of G Code Insert Pause for Windows"
-            -delete
-            "current-windows"
-            /c/Users/circleci/go/bin/ghr.exe
-
-
-#            VERSION="1.0.0"
-#            ghr
-#            -t ${GITHUB_TOKEN}
-#            -u ${CIRCLE_PROJECT_USERNAME}
-#            -r ${CIRCLE_PROJECT_REPONAME}
-#            -c ${CIRCLE_SHA1}
-#            -delete
-#            ${VERSION}
-#            /c/Users/circleci/go/bin/ghr.exe
-
-#      - run: ls -laR /c/Users/circleci/go/bin
-#      - run: 
-#          name: "Dump the entire disk"
-#          command: ls -laR /c
-
-# $GOPATH/bin/hello
-
-#      - checkout
 
 #      - run: python --version
 #        # Python 3.7.3
@@ -65,21 +30,21 @@ jobs:
 #            echo 'export PATH=$PATH:/c/Program\ Files\ \(x86\)/WiX\ Toolset\ v3.11/bin' >> $BASH_ENV
 #      - run: dark
 
-#      # Install Rust.  Don't use the Chocolatey version.  It tends to have minor issues and be a
-#      # bit behind the latest version.
-#      - run: curl --location --silent --output "$TEMP/rustup-init.exe" "https://win.rustup.rs/"
-#      - run: $TEMP/rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
-#      - run:
-#          command: |
-#            echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
-#      - run:
-#          name: "Report the compiler version"
-#          command: rustc --version
+      # Install Rust.  Don't use the Chocolatey version.  It tends to have minor issues and be a
+      # bit behind the latest version.
+      - run: curl --location --silent --output "$TEMP/rustup-init.exe" "https://win.rustup.rs/"
+      - run: $TEMP/rustup-init.exe -y --default-toolchain "stable-x86_64-pc-windows-msvc" --profile minimal
+      - run:
+          command: |
+            echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
+      - run:
+          name: "Report the compiler version"
+          command: rustc --version
 
-#      # The built-in Git client doesn't work.  Use the command line client.
-#      - run: mkdir ~/.cargo || true
-#      - run: echo "[net]" >> ~/.cargo/config.toml
-#      - run: echo "git-fetch-with-cli = true" >> ~/.cargo/config.toml
+      # The built-in Git client doesn't work.  Use the command line client.
+      - run: mkdir ~/.cargo || true
+      - run: echo "[net]" >> ~/.cargo/config.toml
+      - run: echo "git-fetch-with-cli = true" >> ~/.cargo/config.toml
 
 #      - run: 
 #          name: "Install cargo-wix; clone"
@@ -136,6 +101,9 @@ jobs:
 #            mv api_ms_win_crt_locale_l1_1_0.dll api-ms-win-crt-locale-l1-1-0.dll
 #          working_directory: "./original/wix/vc_redist/dlls"
 
+      # Bulid GCIP
+      - run: cargo build --locked --release --manifest-path ./Cargo.toml
+
 
 #      - run: 
 #          name: "Dump the entire disk"
@@ -155,7 +123,6 @@ jobs:
 #          command: signtool.exe
 
 
-#      - run: cargo build --locked --release --manifest-path ./Cargo.toml
 
 #      - run: ls -laR ..
 #      - run:
