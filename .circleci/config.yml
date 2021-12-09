@@ -11,8 +11,6 @@ jobs:
       size: medium
       shell: bash
     steps:
-#      - checkout
-
 #      # Install WiX.  It's used to build our installer.
 #      - run: choco install -y wixtoolset
 #      - run:
@@ -31,6 +29,8 @@ jobs:
       - run:
           command: |
             echo 'export PATH=$HOME/.cargo/bin:$PATH' >> $BASH_ENV
+
+      - checkout
       - run: cargo build --locked --release --manifest-path ./Cargo.toml
 
 #      - run: ls -laR ..
