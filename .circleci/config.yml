@@ -11,7 +11,8 @@ jobs:
       size: medium
       shell: bash
     steps:
-      - run: pip3 install awscli
+      - run: python --version
+#      - run: pip3 install awscli
 
 #      # Install WiX.  It's used to build our installer.
 #      - run: choco install -y wixtoolset
