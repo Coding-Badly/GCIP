@@ -65,9 +65,12 @@ jobs:
 #          path: $TEMP/c.txt
 #          destination: entire-c-drive.txt
 
+      - run:
+          command: |
+            echo 'export PATH=$PATH:/c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/10.0.22000.0/x64' >> $BASH_ENV
       - run: 
           name: "Can we sign?"
-          command: /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/10.0.22000.0/x64/signtool.exe
+          command: signtool.exe
 
 
 #      - run: cargo build --locked --release --manifest-path ./Cargo.toml
